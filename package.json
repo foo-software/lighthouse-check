@@ -1,0 +1,63 @@
+{
+  "name": "@foo-software/lighthouse-trigger",
+  "version": "0.0.1",
+  "description": "An NPM module to trigger Lighthouse audits to be saved in the cloud.",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foo-software/lighthouse-trigger.git"
+  },
+  "keywords": [
+    "lighthouse",
+    "google",
+    "performance",
+    "accessibility",
+    "seo",
+    "progressive web app",
+    "best practices",
+    "website performance monitoring",
+    "foo",
+    "foo.software"
+  ],
+  "author": "Adam Henson <adamhenson1979@gmail.com> (https://github.com/adamhenson)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/foo-software/lighthouse-trigger/issues"
+  },
+  "homepage": "https://github.com/foo-software/lighthouse-trigger#readme",
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/"
+    ]
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "babel ./src --out-dir dist",
+    "prepare": "npm run clean && npm run build",
+    "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "husky": "^3.0.1",
+    "jest": "^24.8.0",
+    "lint-staged": "^9.2.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3"
+  }
+}
