@@ -4,6 +4,8 @@ This project is a work in progress - a pre-release version. Please do not attemp
 
 ***
 
+[![CircleCI](https://circleci.com/gh/foo-software/lighthouse-trigger.svg?style=svg)](https://circleci.com/gh/foo-software/lighthouse-trigger)
+
 # `@foo-software/lighthouse-trigger`
 
 > An NPM module to trigger Lighthouse audits to be saved in the cloud. Triggers audits for URLs associated with a lighthouse-check.com account. Utilizing this module within a release or integration workflow would be a standard use case.
