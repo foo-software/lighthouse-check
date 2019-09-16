@@ -47,7 +47,10 @@
       "git add"
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash.get": "^4.4.2",
+    "node-fetch": "^2.6.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",

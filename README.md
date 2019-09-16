@@ -27,7 +27,7 @@ yarn add @foo-software/lighthouse-trigger
 Calling `lighthouseTrigger` in the example below will trigger Lighthouse audits for all URLs associated with the account having an API key of `abc123`.
 
 ```javascript
-const { lighthouseTrigger } = require('lighthouse-trigger');
+const { lighthouseTrigger } = require('@foo-software/lighthouse-trigger');
 
 const init = async () => {
   const response = await lighthouseTrigger({
@@ -70,6 +70,12 @@ lighthouseTrigger({
     <td><code>urls</code></td>
     <td>An optional list of URLs represented by their respective API key. URL API keys can be found in the dashboard for a given URL.</td>
     <td><code>array</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td><code>tag</code></td>
+    <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>).</td>
+    <td><code>string</code></td>
     <td>no</td>
   </tr>
 </table>
