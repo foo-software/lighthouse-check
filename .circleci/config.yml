@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Upload coverage
           command: |
-            codecov
+            npx run codecov
 
 workflows:
   version: 2
