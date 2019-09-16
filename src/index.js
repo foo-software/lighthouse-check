@@ -85,7 +85,7 @@ export const lighthouseTrigger = async ({ apiKey, tag, urls = [] }) => {
       const errorMessage =
         errorCode === ERROR_QUEUE_MAX_USED_DAY
           ? queue.results[0].message
-          : 'Attempted failed.';
+          : 'All URLs failed. Examine the "data" property of this error for details.';
 
       throw new LighthouseTriggerError(errorMessage, {
         code: errorCode,

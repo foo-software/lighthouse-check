@@ -1,44 +1,248 @@
-import lighthousePersist from '.';
+import fetch from 'node-fetch';
+import * as lighthouseTriggerApi from '.';
 
-jest.mock('chrome-launcher', () => ({
-  launch: jest.fn().mockReturnValue({
-    kill: jest.fn()
+const { lighthouseTrigger } = lighthouseTriggerApi;
+
+const mockResponse = {
+  status: 200,
+  data: {}
+};
+
+const mockPageResponse = {
+  ...mockResponse,
+  data: {
+    page: []
+  }
+};
+
+const mockFetchPagesResponse = {
+  json: () => ({
+    ...mockPageResponse,
+    data: {
+      page: [
+        {
+          _id: 'abc',
+          apiToken: 'abc123'
+        },
+        {
+          _id: 'def',
+          apiToken: 'def456'
+        }
+      ]
+    }
   })
-}));
+};
 
-jest.mock('lighthouse', () => ({
+const mockFetchPagesEmptyResponse = {
+  json: () => mockPageResponse
+};
+
+const mockFetchPagesUnauthorizedResponse = {
+  json: () => ({
+    status: 401
+  })
+};
+
+const mockQueueItemsResponse = {
+  ...mockResponse,
+  data: {
+    queue: {
+      results: [],
+      errors: 0
+    }
+  }
+};
+
+const mockFetchQueueItemsEmptyResponse = {
+  json: () => ({
+    ...mockQueueItemsResponse
+  })
+};
+
+const mockFetchQueueItemsSuccessResponse = {
+  json: () => ({
+    ...mockQueueItemsResponse,
+    data: {
+      queue: {
+        ...mockQueueItemsResponse.data.queue,
+        results: [
+          {
+            code: 'SUCCESS_QUEUE_ADD',
+            status: 200
+          },
+          {
+            code: 'SUCCESS_QUEUE_ADD',
+            status: 200
+          }
+        ]
+      }
+    }
+  })
+};
+
+const mockFetchQueueItemsFailResponse = {
+  json: () => ({
+    ...mockQueueItemsResponse,
+    data: {
+      queue: {
+        ...mockQueueItemsResponse.data.queue,
+        results: [
+          {
+            code: 'SOME_ERROR',
+            message: 'some error message',
+            status: 401
+          },
+          {
+            code: 'SOME_ERROR',
+            message: 'some error message',
+            status: 401
+          }
+        ],
+        errors: 2
+      }
+    }
+  })
+};
+
+const mockFetchQueueItemsFailMaxReachedResponse = {
+  json: () => ({
+    ...mockQueueItemsResponse,
+    data: {
+      queue: {
+        ...mockQueueItemsResponse.data.queue,
+        results: [
+          {
+            code: 'ERROR_QUEUE_MAX_USED_DAY',
+            message: 'Max limit of 5 triggers reached.',
+            status: 401
+          },
+          {
+            code: 'ERROR_QUEUE_MAX_USED_DAY',
+            message: 'Max limit of 5 triggers reached.',
+            status: 401
+          }
+        ],
+        errors: 2
+      }
+    }
+  })
+};
+
+const mockFetchQueueItemsMixedResponse = {
+  json: () => ({
+    ...mockQueueItemsResponse,
+    data: {
+      queue: {
+        ...mockQueueItemsResponse.data.queue,
+        results: [
+          {
+            code: 'ERROR_QUEUE_MAX_USED_DAY',
+            message: 'Max limit of 5 triggers reached.',
+            status: 401
+          },
+          {
+            code: 'ERROR_QUEUE_MAX_USED_DAY',
+            message: 'Max limit of 5 triggers reached.',
+            status: 401
+          },
+          {
+            code: 'SUCCESS_QUEUE_ADD',
+            status: 200
+          }
+        ],
+        errors: 2
+      }
+    }
+  })
+};
+
+const mockParams = {
+  apiKey: 'abc123'
+};
+
+jest.mock('node-fetch', () => ({
   __esModule: true,
-  default: jest.fn().mockReturnValue({
-    lhr: {
-      categories: { performance: {} },
-      mock: true
-    },
-    report: '<h1>hello world</h1>'
-  })
+  default: jest.fn()
 }));
 
-jest.mock('./helpers/upload', () => ({
-  __esModule: true,
-  default: jest.fn().mockReturnValue({
-    Location:
-      'https://s3.amazonaws.com/foo-software-html/lighthouse-report-example.html'
-  })
-}));
-
-describe('@foo-software/lighthouse-persist', () => {
+describe('@foo-software/lighthouse-trigger', () => {
   it('should match snapshot', () => {
-    expect(lighthousePersist).toMatchSnapshot();
+    expect(lighthouseTriggerApi).toMatchSnapshot();
+  });
+});
+
+describe('lighthouseTrigger()', () => {
+  describe('on success', () => {
+    it('should return an expected response payload', async () => {
+      fetch
+        .mockReset()
+        .mockReturnValueOnce(mockFetchPagesResponse)
+        .mockReturnValueOnce(mockFetchQueueItemsSuccessResponse);
+
+      const response = await lighthouseTrigger(mockParams);
+      expect(response).toMatchSnapshot();
+    });
   });
 
-  it('should return an expected response payload', async () => {
-    const response = await lighthousePersist({
-      url: 'https://www.foo.software',
-      awsAccessKeyId: 'abc123',
-      awsBucket: 'myBucket',
-      awsRegion: 'us-east-1',
-      awsSecretAccessKey: 'def456'
+  describe('on fail', () => {
+    it('should return an expected response payload when api key is invalid', async () => {
+      fetch
+        .mockReset()
+        .mockReturnValueOnce(mockFetchPagesUnauthorizedResponse)
+        .mockReturnValueOnce(mockFetchQueueItemsSuccessResponse);
+
+      const response = await lighthouseTrigger(mockParams);
+      expect(response).toMatchSnapshot();
     });
 
-    expect(response).toMatchSnapshot();
+    it('should return an expected response payload when no pages are found', async () => {
+      fetch
+        .mockReset()
+        .mockReturnValueOnce(mockFetchPagesEmptyResponse)
+        .mockReturnValueOnce(mockFetchQueueItemsSuccessResponse);
+
+      const response = await lighthouseTrigger(mockParams);
+      expect(response).toMatchSnapshot();
+    });
+
+    it('should return an expected response payload when no queue results are returned', async () => {
+      fetch
+        .mockReset()
+        .mockReturnValueOnce(mockFetchPagesResponse)
+        .mockReturnValueOnce(mockFetchQueueItemsEmptyResponse);
+
+      const response = await lighthouseTrigger(mockParams);
+      expect(response).toMatchSnapshot();
+    });
+
+    it('should return an expected response payload when all URLs failed to queue', async () => {
+      fetch
+        .mockReset()
+        .mockReturnValueOnce(mockFetchPagesResponse)
+        .mockReturnValueOnce(mockFetchQueueItemsFailResponse);
+
+      const response = await lighthouseTrigger(mockParams);
+      expect(response).toMatchSnapshot();
+    });
+
+    it('should return an expected response payload when all URLs failed to queue due to max limit reached', async () => {
+      fetch
+        .mockReset()
+        .mockReturnValueOnce(mockFetchPagesResponse)
+        .mockReturnValueOnce(mockFetchQueueItemsFailMaxReachedResponse);
+
+      const response = await lighthouseTrigger(mockParams);
+      expect(response).toMatchSnapshot();
+    });
+
+    it('should return an expected response payload when all some URLs failed to queue but some succeeded', async () => {
+      fetch
+        .mockReset()
+        .mockReturnValueOnce(mockFetchPagesResponse)
+        .mockReturnValueOnce(mockFetchQueueItemsMixedResponse);
+
+      const response = await lighthouseTrigger(mockParams);
+      expect(response).toMatchSnapshot();
+    });
   });
 });
