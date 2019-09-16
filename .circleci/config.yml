@@ -7,13 +7,13 @@ jobs:
       - checkout
       - run: npm install
       - run:
-        name: Unit tests
-        command: |
-          npm run test -- --coverage
+          name: Unit tests
+          command: |
+            npm run test -- --coverage
       - run:
-        name: Upload coverage
-        command: |
-          npm run codecov
+          name: Upload coverage
+          command: |
+            npm run codecov
 
 workflows:
   version: 2
