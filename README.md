@@ -68,7 +68,7 @@ lighthouseTrigger({
   </tr>
   <tr>
     <td><code>urls</code></td>
-    <td>An optional list of URLs represented by their respective API key. URL API keys can be found in the dashboard for a given URL.</td>
+    <td>An optional list of URLs represented by their respective API key. URL API keys can be found in the dashboard.</td>
     <td><code>array</code></td>
     <td>no</td>
   </tr>
