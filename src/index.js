@@ -17,15 +17,15 @@ const DEFAULT_TAG = 'lighthouse-trigger';
 const SUCCESS_CODE_GENERIC = 'SUCCESS';
 const TRIGGER_TYPE = 'lighthouseAudit';
 
-export const lighthouseTrigger = async ({ apiKey, tag, urls = [] }) => {
+export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
   try {
-    let apiKeys = urls;
+    let apiTokens = urls;
 
     if (!Array.isArray(urls) || !urls.length) {
       const pagesResponse = await fetch(`${API_URL}${API_PAGES_PATH}`, {
         method: 'get',
         headers: {
-          Authorization: apiKey,
+          Authorization: apiToken,
           'Content-Type': 'application/json'
         }
       });
@@ -50,7 +50,7 @@ export const lighthouseTrigger = async ({ apiKey, tag, urls = [] }) => {
         );
       }
 
-      apiKeys = pages.map(current => current.apiToken);
+      apiTokens = pages.map(current => current.apiToken);
     }
 
     // enqueue urls for Lighthouse audits
@@ -59,12 +59,12 @@ export const lighthouseTrigger = async ({ apiKey, tag, urls = [] }) => {
       {
         method: 'post',
         headers: {
-          Authorization: apiKey,
+          Authorization: apiToken,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           tag: tag || DEFAULT_TAG,
-          pages: apiKeys.join(),
+          pages: apiTokens.join(),
           type: TRIGGER_TYPE
         })
       }

@@ -26,14 +26,14 @@ yarn add @foo-software/lighthouse-trigger
 
 ## Usage
 
-Calling `lighthouseTrigger` in the example below will trigger Lighthouse audits for all URLs associated with the account having an API key of `abc123`.
+Calling `lighthouseTrigger` in the example below will trigger Lighthouse audits for all URLs associated with the account having an API token of `abc123`.
 
 ```javascript
 const { lighthouseTrigger } = require('@foo-software/lighthouse-trigger');
 
 const init = async () => {
   const response = await lighthouseTrigger({
-    apiKey: 'abc123'
+    apiToken: 'abc123'
   });
 
   console.log('response', response);
@@ -42,11 +42,11 @@ const init = async () => {
 init();
 ```
 
-To run Lighthouse audits on a subset of URLs, you can specify an array of URLs denoted by their respective API keys. Example below.
+To run Lighthouse audits on a subset of URLs, you can specify an array of URLs denoted by their respective API tokens. Example below.
 
 ```javascript
 lighthouseTrigger({
-  apiKey: 'abc123',
+  apiToken: 'abc123',
   urls: ['cde456', 'fgh789']
 });
 ```
@@ -63,14 +63,14 @@ lighthouseTrigger({
     <th>Required</th>
   </tr>
   <tr>
-    <td><code>apiKey</code></td>
-    <td>The lighthouse-check account API key found in the dashboard.</td>
+    <td><code>apiToken</code></td>
+    <td>The lighthouse-check account API token found in the dashboard.</td>
     <td><code>string</code></td>
     <td>yes</td>
   </tr>
   <tr>
     <td><code>urls</code></td>
-    <td>An optional list of URLs represented by their respective API key. URL API keys can be found in the dashboard.</td>
+    <td>An optional list of URLs represented by their respective API token. URL API tokens can be found in the dashboard.</td>
     <td><code>array</code></td>
     <td>no</td>
   </tr>

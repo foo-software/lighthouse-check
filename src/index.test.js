@@ -157,7 +157,7 @@ const mockFetchQueueItemsMixedResponse = {
 };
 
 const mockParams = {
-  apiKey: 'abc123'
+  apiToken: 'abc123'
 };
 
 jest.mock('node-fetch', () => ({
