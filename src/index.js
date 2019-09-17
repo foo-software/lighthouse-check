@@ -17,6 +17,11 @@ const DEFAULT_TAG = 'lighthouse-trigger';
 const SUCCESS_CODE_GENERIC = 'SUCCESS';
 const TRIGGER_TYPE = 'lighthouseAudit';
 
+// this should only be defined when working locally.
+if (process.env.API_URL) {
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+}
+
 export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
   try {
     let apiTokens = urls;
