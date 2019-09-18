@@ -82,9 +82,37 @@ lighthouseTrigger({
   </tr>
 </table>
 
-## Response Payload
+## Return Payload
 
-Coming soon.
+It's important to note that `lighthouseTrigger()` function is encapsulated by a try / catch, so an object should always be returned. Errors are caught, but populated in the return object below.
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Type</th>
+  </tr>
+  <tr>
+    <td><code>code</code></td>
+    <td>A code to signify failure or succes.</td>
+    <td><code>oneOf(["SUCCESS", "ERROR_GENERIC", ...])</code> see <a href="src/errorCodes.js">errorCodes.js</a> for all error codes.</td>
+  </tr>
+  <tr>
+    <td><code>data</code></td>
+    <td>An array of results returned by the API.</td>
+    <td><code>array</code></td>
+  </tr>
+  <tr>
+    <td><code>error</code></td>
+    <td>If there was a problem, this property will typically be populated with an error object. This field is only populated when an error was caught or the params didn't pass validation.</td>
+    <td><code>object</code> (typically an error object)</td>
+  </tr>
+  <tr>
+    <td><code>message</code></td>
+    <td>A message to elaborate on the code. This field isn't always populated.</td>
+    <td><code>string</code></td>
+  </tr>
+</table>
 
 ## Credits
 
