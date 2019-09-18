@@ -61,6 +61,6 @@ Object {
       "status": 200,
     },
   ],
-  "message": "2 URLs successfully enqueued for Lighthouse. Visit dashboard for results",
+  "message": "2 URLs successfully enqueued for Lighthouse. Visit dashboard for results.",
 }
 `;
