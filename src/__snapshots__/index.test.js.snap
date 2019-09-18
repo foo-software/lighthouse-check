@@ -9,7 +9,7 @@ Object {
 exports[`lighthouseTrigger() on fail should return an expected response payload when all URLs failed to queue 1`] = `
 Object {
   "code": "SOME_ERROR",
-  "error": [Error: All URLs failed. Examine the "data" property of this error for details.],
+  "error": [Error: All URLs failed to be enqueued. Examine the "data" property of this error for details.],
 }
 `;
 
@@ -61,6 +61,6 @@ Object {
       "status": 200,
     },
   ],
-  "message": "success! 2 URLs queued.",
+  "message": "2 URLs successfully enqueued for Lighthouse. Visit dashboard for results",
 }
 `;
