@@ -115,7 +115,7 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
       data: queue.results,
       message: `${queue.results.length} ${
         queue.results.length > 1 ? 'URLs' : 'URL'
-      } successfully enqueued for Lighthouse. Visit dashboard for results`
+      } successfully enqueued for Lighthouse. Visit dashboard for results.`
     };
   } catch (error) {
     return {
