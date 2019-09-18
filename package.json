@@ -1,6 +1,6 @@
 {
   "name": "@foo-software/lighthouse-trigger",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "An NPM module to trigger Lighthouse audits to be saved in the cloud.",
   "main": "dist/index.js",
   "repository": {
