@@ -113,9 +113,9 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
     return {
       code: SUCCESS_CODE_GENERIC,
       data: queue.results,
-      message: `success! ${queue.results.length} ${
+      message: `${queue.results.length} ${
         queue.results.length > 1 ? 'URLs' : 'URL'
-      } queued.`
+      } enqueued.`
     };
   } catch (error) {
     return {
