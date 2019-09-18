@@ -90,7 +90,7 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
       const errorMessage =
         errorCode === ERROR_QUEUE_MAX_USED_DAY
           ? queue.results[0].message
-          : 'All URLs failed. Examine the "data" property of this error for details.';
+          : 'All URLs failed to be enqueued. Examine the "data" property of this error for details.';
 
       throw new LighthouseTriggerError(errorMessage, {
         code: errorCode,
@@ -115,7 +115,7 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
       data: queue.results,
       message: `${queue.results.length} ${
         queue.results.length > 1 ? 'URLs' : 'URL'
-      } enqueued.`
+      } successfully enqueued for Lighthouse. Visit dashboard for results`
     };
   } catch (error) {
     return {
