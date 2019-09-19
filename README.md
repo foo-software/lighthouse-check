@@ -4,9 +4,9 @@ This project is a work in progress - a pre-release version. Please do not attemp
 
 ***
 
-[![CircleCI](https://circleci.com/gh/foo-software/lighthouse-trigger.svg?style=svg)](https://circleci.com/gh/foo-software/lighthouse-trigger)
+[![CircleCI](https://circleci.com/gh/foo-software/lighthouse-check.svg?style=svg)](https://circleci.com/gh/foo-software/lighthouse-check)
 
-# `@foo-software/lighthouse-trigger`
+# `@foo-software/lighthouse-check`
 
 > An NPM module to trigger Lighthouse audits to be saved in the cloud. Triggers audits for URLs associated with a lighthouse-check.com account. Utilizing this module within a release or integration workflow would be a standard use case.
 
@@ -15,13 +15,13 @@ This project is a work in progress - a pre-release version. Please do not attemp
 ## Install
 
 ```bash
-npm install @foo-software/lighthouse-trigger
+npm install @foo-software/lighthouse-check
 ```
 
 or
 
 ```bash
-yarn add @foo-software/lighthouse-trigger
+yarn add @foo-software/lighthouse-check
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ yarn add @foo-software/lighthouse-trigger
 Calling `lighthouseTrigger` in the example below will trigger Lighthouse audits for all URLs associated with the account having an API token of `abc123`.
 
 ```javascript
-const { lighthouseTrigger } = require('@foo-software/lighthouse-trigger');
+const { lighthouseTrigger } = require('@foo-software/lighthouse-check');
 
 const init = async () => {
   const response = await lighthouseTrigger({

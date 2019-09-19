@@ -1,7 +1,7 @@
-export default class LighthouseTriggerError extends Error {
+export default class LighthouseCheckError extends Error {
   constructor(...args) {
     super(...args);
-    Error.captureStackTrace(this, LighthouseTriggerError);
+    Error.captureStackTrace(this, LighthouseCheckError);
 
     const [, options] = args;
     this.code = options.code;

@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import * as lighthouseTriggerApi from '.';
+import * as lighthouseCheckApi from '.';
 
-const { lighthouseTrigger } = lighthouseTriggerApi;
+const { triggerLighthouse } = lighthouseCheckApi;
 
 const mockResponse = {
   status: 200,
@@ -167,11 +167,11 @@ jest.mock('node-fetch', () => ({
 
 describe('@foo-software/lighthouse-trigger', () => {
   it('should match snapshot', () => {
-    expect(lighthouseTriggerApi).toMatchSnapshot();
+    expect(lighthouseCheckApi).toMatchSnapshot();
   });
 });
 
-describe('lighthouseTrigger()', () => {
+describe('triggerLighthouse()', () => {
   describe('on success', () => {
     it('should return an expected response payload', async () => {
       fetch
@@ -179,7 +179,7 @@ describe('lighthouseTrigger()', () => {
         .mockReturnValueOnce(mockFetchPagesResponse)
         .mockReturnValueOnce(mockFetchQueueItemsSuccessResponse);
 
-      const response = await lighthouseTrigger(mockParams);
+      const response = await triggerLighthouse(mockParams);
       expect(response).toMatchSnapshot();
     });
   });
@@ -191,7 +191,7 @@ describe('lighthouseTrigger()', () => {
         .mockReturnValueOnce(mockFetchPagesUnauthorizedResponse)
         .mockReturnValueOnce(mockFetchQueueItemsSuccessResponse);
 
-      const response = await lighthouseTrigger(mockParams);
+      const response = await triggerLighthouse(mockParams);
       expect(response).toMatchSnapshot();
     });
 
@@ -201,7 +201,7 @@ describe('lighthouseTrigger()', () => {
         .mockReturnValueOnce(mockFetchPagesEmptyResponse)
         .mockReturnValueOnce(mockFetchQueueItemsSuccessResponse);
 
-      const response = await lighthouseTrigger(mockParams);
+      const response = await triggerLighthouse(mockParams);
       expect(response).toMatchSnapshot();
     });
 
@@ -211,7 +211,7 @@ describe('lighthouseTrigger()', () => {
         .mockReturnValueOnce(mockFetchPagesResponse)
         .mockReturnValueOnce(mockFetchQueueItemsEmptyResponse);
 
-      const response = await lighthouseTrigger(mockParams);
+      const response = await triggerLighthouse(mockParams);
       expect(response).toMatchSnapshot();
     });
 
@@ -221,7 +221,7 @@ describe('lighthouseTrigger()', () => {
         .mockReturnValueOnce(mockFetchPagesResponse)
         .mockReturnValueOnce(mockFetchQueueItemsFailResponse);
 
-      const response = await lighthouseTrigger(mockParams);
+      const response = await triggerLighthouse(mockParams);
       expect(response).toMatchSnapshot();
     });
 
@@ -231,7 +231,7 @@ describe('lighthouseTrigger()', () => {
         .mockReturnValueOnce(mockFetchPagesResponse)
         .mockReturnValueOnce(mockFetchQueueItemsFailMaxReachedResponse);
 
-      const response = await lighthouseTrigger(mockParams);
+      const response = await triggerLighthouse(mockParams);
       expect(response).toMatchSnapshot();
     });
 
@@ -241,7 +241,7 @@ describe('lighthouseTrigger()', () => {
         .mockReturnValueOnce(mockFetchPagesResponse)
         .mockReturnValueOnce(mockFetchQueueItemsMixedResponse);
 
-      const response = await lighthouseTrigger(mockParams);
+      const response = await triggerLighthouse(mockParams);
       expect(response).toMatchSnapshot();
     });
   });

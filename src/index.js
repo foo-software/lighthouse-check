@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import get from 'lodash.get';
-import LighthouseTriggerError from './LighthouseTriggerError';
+import LighthouseCheckError from './LighthouseCheckError';
 import {
   ERROR_CODE_ATTEMPT_FAILED,
   ERROR_CODE_GENERIC,
@@ -14,7 +14,7 @@ const API_URL = process.env.API_URL || 'https://www.foo.software/api/v1';
 const API_PAGES_PATH = '/pages';
 const API_QUEUE_ITEMS_PATH = '/queue/items';
 const API_LIGHTHOUSE_AUDIT_PATH = '/lighthouseAudits/queueIds';
-const DEFAULT_TAG = 'lighthouse-trigger';
+const DEFAULT_TAG = 'lighthouse-check';
 const SUCCESS_CODE_GENERIC = 'SUCCESS';
 const TRIGGER_TYPE = 'lighthouseAudit';
 
@@ -38,7 +38,7 @@ export const fetchLighthouseAudits = async ({ apiToken, queueIds }) => {
     const lighthouseAuditsJson = await lighthouseAuditsResponse.json();
 
     if (lighthouseAuditsJson.status >= 400) {
-      throw new LighthouseTriggerError('No results found.', {
+      throw new LighthouseCheckError('No results found.', {
         code: ERROR_CODE_NO_RESULTS
       });
     }
@@ -78,7 +78,7 @@ export const fetchAndWaitForLighthouseAudits = async ({
   }
 };
 
-export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
+export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
   try {
     let apiTokens = urls;
 
@@ -93,7 +93,7 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
       const pagesJson = await pagesResponse.json();
 
       if (pagesJson.status >= 400) {
-        throw new LighthouseTriggerError(
+        throw new LighthouseCheckError(
           `Account wasn't found for the provided API token.`,
           {
             code: ERROR_CODE_UNAUTHORIZED
@@ -103,12 +103,9 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
 
       const pages = get(pagesJson, 'data.page', []);
       if (!pages.length) {
-        throw new LighthouseTriggerError(
-          'No URLs were found for this account.',
-          {
-            code: ERROR_CODE_NO_URLS
-          }
-        );
+        throw new LighthouseCheckError('No URLs were found for this account.', {
+          code: ERROR_CODE_NO_URLS
+        });
       }
 
       apiTokens = pages.map(current => current.apiToken);
@@ -135,7 +132,7 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
 
     // if no results
     if (!queue.results.length) {
-      throw new LighthouseTriggerError('No results.', {
+      throw new LighthouseCheckError('No results.', {
         code: ERROR_CODE_NO_RESULTS
       });
     }
@@ -148,7 +145,7 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
           ? queue.results[0].message
           : 'All URLs failed to be enqueued. Examine the "data" property of this error for details.';
 
-      throw new LighthouseTriggerError(errorMessage, {
+      throw new LighthouseCheckError(errorMessage, {
         code: errorCode,
         data: queue.results
       });
@@ -156,7 +153,7 @@ export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
 
     // if only some urls succeeded to be enqueued...
     if (queue.errors) {
-      throw new LighthouseTriggerError(
+      throw new LighthouseCheckError(
         'Only some of your account URLs were enqueued. Examine the "data" property of this error for details. Typically this occurs when daily limit has been met for a given URL. Check your account limits online.',
         {
           code: ERROR_CODE_ATTEMPT_FAILED,

@@ -1,11 +1,11 @@
 {
-  "name": "@foo-software/lighthouse-trigger",
+  "name": "@foo-software/lighthouse-check",
   "version": "0.0.8",
-  "description": "An NPM module to trigger Lighthouse audits to be saved in the cloud.",
+  "description": "An NPM module for automated Lighthouse audits.",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/foo-software/lighthouse-trigger.git"
+    "url": "git+https://github.com/foo-software/lighthouse-check.git"
   },
   "keywords": [
     "lighthouse",
@@ -22,9 +22,9 @@
   "author": "Adam Henson <adamhenson1979@gmail.com> (https://github.com/adamhenson)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/foo-software/lighthouse-trigger/issues"
+    "url": "https://github.com/foo-software/lighthouse-check/issues"
   },
-  "homepage": "https://github.com/foo-software/lighthouse-trigger#readme",
+  "homepage": "https://github.com/foo-software/lighthouse-check#readme",
   "jest": {
     "modulePathIgnorePatterns": [
       "<rootDir>/dist/"
