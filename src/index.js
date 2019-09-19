@@ -177,3 +177,8 @@ export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
     };
   }
 };
+
+const commonPageCacheHeaders = {
+  'Cache-Control': 'no-store, must-revalidate',
+  'Surrogate-Control': `max-age=${cacheConf.maxAge}, stale-while-revalidate=${cacheConf.staleWhileRevalidate}, stale-if-error=${cacheConf.staleIfError}`
+};
