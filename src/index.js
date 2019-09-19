@@ -13,6 +13,7 @@ import {
 const API_URL = process.env.API_URL || 'https://www.foo.software/api/v1';
 const API_PAGES_PATH = '/pages';
 const API_QUEUE_ITEMS_PATH = '/queue/items';
+const API_LIGHTHOUSE_AUDIT_PATH = '/lighthouseAudits/queueIds';
 const DEFAULT_TAG = 'lighthouse-trigger';
 const SUCCESS_CODE_GENERIC = 'SUCCESS';
 const TRIGGER_TYPE = 'lighthouseAudit';
@@ -21,6 +22,61 @@ const TRIGGER_TYPE = 'lighthouseAudit';
 if (process.env.API_URL) {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 }
+
+export const fetchLighthouseAudits = async ({ apiToken, queueIds }) => {
+  try {
+    const lighthouseAuditsResponse = await fetch(
+      `${API_URL}${API_LIGHTHOUSE_AUDIT_PATH}/${queueIds}`,
+      {
+        method: 'get',
+        headers: {
+          Authorization: apiToken,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    const lighthouseAuditsJson = await lighthouseAuditsResponse.json();
+
+    if (lighthouseAuditsJson.status >= 400) {
+      throw new LighthouseTriggerError('No results found.', {
+        code: ERROR_CODE_NO_RESULTS
+      });
+    }
+
+    const lighthouseResults = get(
+      lighthouseAuditsJson,
+      'data.lighthouseaudit',
+      []
+    );
+
+    // success
+    return {
+      code: SUCCESS_CODE_GENERIC,
+      data: lighthouseResults,
+      message: 'Lighthouse results successfully fetched.'
+    };
+  } catch (error) {
+    return {
+      code: error.code || ERROR_CODE_GENERIC,
+      error
+    };
+  }
+};
+
+export const fetchAndWaitForLighthouseAudits = async ({
+  apiToken,
+  timeout,
+  queueIds
+}) => {
+  try {
+    // poll while loop?
+  } catch (error) {
+    return {
+      code: error.code || ERROR_CODE_GENERIC,
+      error
+    };
+  }
+};
 
 export const lighthouseTrigger = async ({ apiToken, tag, urls = [] }) => {
   try {
