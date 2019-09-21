@@ -105,12 +105,16 @@ export const fetchAndWaitForLighthouseAudits = ({
           result.data && result.data.length === queueIds.length;
 
         // have we reached the timeout
-        const isTimeoutReached = timeoutMilliseconds === millisecondsPassed;
+        const isTimeoutReached = millisecondsPassed > timeoutMilliseconds;
 
         // has unexpected error
         const isErrorUnexpected =
           result.error &&
           (!result.error.code || result.error.code !== ERROR_NO_RESULTS);
+
+        const resultLength = !Array.isArray(result.data)
+          ? 0
+          : result.data.length;
 
         if (isErrorUnexpected) {
           if (verbose) {
@@ -135,9 +139,14 @@ export const fetchAndWaitForLighthouseAudits = ({
               seo: current.scoreSeo
             }
           }));
+
+          if (verbose) {
+            console.log(`${NAME}:`, '\n------- results -------\n', audits);
+          }
+
           resolve(audits);
         } else if (isTimeoutReached) {
-          const errorMessage = `Fetched results, but the requested enqueued items are incomplete. Received ${resultLength} out of ${queueIds.length}. ${timeout} minute timeout reached.`;
+          const errorMessage = `Received ${resultLength} out of ${queueIds.length} results. ${timeout} minute timeout reached.`;
           if (verbose) {
             console.log(`${NAME}:`, errorMessage);
           }
@@ -149,12 +158,9 @@ export const fetchAndWaitForLighthouseAudits = ({
           );
         } else {
           if (verbose) {
-            const resultLength = !Array.isArray(result.data)
-              ? 0
-              : result.data.length;
             console.log(
               `${NAME}:`,
-              `Fetched results, but the requested enqueued items are incomplete. Received ${resultLength} out of ${queueIds.length}. Trying again in ${FETCH_POLL_INTERVAL_SECONDS} seconds.`
+              `Received ${resultLength} out of ${queueIds.length} results. Trying again in ${FETCH_POLL_INTERVAL_SECONDS} seconds.`
             );
           }
 
@@ -306,3 +312,80 @@ export const triggerLighthouse = async ({
     return result;
   }
 };
+
+export const lighthouseCheck = ({
+  apiToken,
+  tag,
+  urls,
+  verbose = true,
+  wait = true
+}) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const triggerResult = await triggerLighthouse({
+        apiToken,
+        tag,
+        urls,
+        verbose
+      });
+
+      if (triggerResult.error) {
+        reject(triggerResult.error);
+      }
+
+      // if the user understandably doesn't want to wait for results, return right away
+      if (!wait) {
+        resolve(triggerResult);
+      }
+
+      const failUnexpectedly = () => {
+        const errorMessage = 'Failed to retrieve results.';
+        if (verbose) {
+          console.log(`${NAME}:`, errorMessage);
+        }
+
+        reject(
+          new LighthouseCheckError(errorMessage, {
+            code: ERROR_NO_RESULTS
+          })
+        );
+      };
+
+      // if this condition doesn't pass - we got a problem
+      if (triggerResult.data) {
+        // assemble an array of queueIds
+        const queueIds = triggerResult.data.reduce(
+          (accumulator, current) => [
+            ...accumulator,
+            ...(!current.id ? [] : [current.id])
+          ],
+          []
+        );
+
+        // if this condition doesn't pass - we got a problem
+        if (queueIds.length) {
+          const auditResults = await fetchAndWaitForLighthouseAudits({
+            apiToken,
+            queueIds,
+            verbose
+          });
+
+          // success
+          resolve({
+            code: SUCCESS_CODE_GENERIC,
+            data: auditResults
+          });
+        } else {
+          failUnexpectedly();
+        }
+      } else {
+        failUnexpectedly();
+      }
+    } catch (error) {
+      if (verbose) {
+        console.log(`${NAME}:\n`, error);
+      }
+
+      reject(error);
+    }
+  });
