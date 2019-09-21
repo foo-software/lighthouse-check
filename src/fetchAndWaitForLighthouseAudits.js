@@ -61,6 +61,7 @@ export default ({
             );
           }
           reject(result.error);
+          return;
         } else if (areResultsExpected) {
           const audits = result.data.map(current => ({
             name: current.name,
@@ -85,6 +86,7 @@ export default ({
           }
 
           resolve(audits);
+          return;
         } else if (isTimeoutReached) {
           const errorMessage = `Received ${resultLength} out of ${queueIds.length} results. ${timeout} minute timeout reached.`;
           if (verbose) {
@@ -96,6 +98,7 @@ export default ({
               code: ERROR_TIMEOUT
             })
           );
+          return;
         } else {
           if (verbose) {
             console.log(

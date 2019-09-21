@@ -16,25 +16,14 @@ export default ({ apiToken, tag, urls, verbose = true, wait = true }) =>
 
       if (triggerResult.error) {
         reject(triggerResult.error);
+        return;
       }
 
       // if the user understandably doesn't want to wait for results, return right away
       if (!wait) {
         resolve(triggerResult);
+        return;
       }
-
-      const failUnexpectedly = () => {
-        const errorMessage = 'Failed to retrieve results.';
-        if (verbose) {
-          console.log(`${NAME}:`, errorMessage);
-        }
-
-        reject(
-          new LighthouseCheckError(errorMessage, {
-            code: ERROR_NO_RESULTS
-          })
-        );
-      };
 
       // if this condition doesn't pass - we got a problem
       if (triggerResult.data) {
@@ -60,12 +49,20 @@ export default ({ apiToken, tag, urls, verbose = true, wait = true }) =>
             code: SUCCESS_CODE_GENERIC,
             data: auditResults
           });
-        } else {
-          failUnexpectedly();
+          return;
         }
-      } else {
-        failUnexpectedly();
       }
+
+      const errorMessage = 'Failed to retrieve results.';
+      if (verbose) {
+        console.log(`${NAME}:`, errorMessage);
+      }
+
+      reject(
+        new LighthouseCheckError(errorMessage, {
+          code: ERROR_NO_RESULTS
+        })
+      );
     } catch (error) {
       if (verbose) {
         console.log(`${NAME}:\n`, error);
