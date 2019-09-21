@@ -78,6 +78,13 @@ lighthouseCheck({
     <td>no</td>
   </tr>
   <tr>
+    <td><code>timeout</code></td>
+    <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown.</td>
+    <td><code>number</code></td>
+    <td><code>10</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
     <td><code>urls</code></td>
     <td>An optional list of URLs represented by their respective API token. URL API tokens can be found in the dashboard.</td>
     <td><code>array</code></td>
@@ -96,13 +103,6 @@ lighthouseCheck({
     <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued.</td>
     <td><code>boolean</code></td>
     <td><code>true</code></td>
-    <td>no</td>
-  </tr>
-  <tr>
-    <td><code>timeout</code></td>
-    <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown.</td>
-    <td><code>number</code></td>
-    <td><code>10</code></td>
     <td>no</td>
   </tr>
 </table>
