@@ -26,7 +26,7 @@ if (process.env.API_URL) {
 export const fetchLighthouseAudits = async ({ apiToken, queueIds }) => {
   try {
     const lighthouseAuditsResponse = await fetch(
-      `${API_URL}${API_LIGHTHOUSE_AUDIT_PATH}/${queueIds}`,
+      `${API_URL}${API_LIGHTHOUSE_AUDIT_PATH}/${queueIds.join()}`,
       {
         method: 'get',
         headers: {
@@ -63,20 +63,43 @@ export const fetchLighthouseAudits = async ({ apiToken, queueIds }) => {
   }
 };
 
-export const fetchAndWaitForLighthouseAudits = async ({
-  apiToken,
-  timeout,
-  queueIds
-}) => {
-  try {
-    // poll while loop?
-  } catch (error) {
-    return {
-      code: error.code || ERROR_CODE_GENERIC,
-      error
-    };
-  }
-};
+// const FETCH_POLL_INTERVAL = 10000; // 10 seconds
+// export const fetchAndWaitForLighthouseAudits = async ({
+//   apiToken,
+//   timeout,
+//   queueIds,
+//   verbose,
+// }) => new Promise((resolve, reject) => {
+//   let currentMilliseconds = 0;
+//   const fetchData = interval =>
+//     setTimeout(async () => {
+//       const result = await fetchLighthouseAudits({
+//         apiToken,
+//         queueIds
+//       });
+
+//       if (!result) {
+//         reject('FAIL_FETCH');
+//       } else {
+//         const queue = get(result, 'data.queue', {});
+//         const queueKeys = Object.keys(queue);
+
+//         if (!queueKeys.length) {
+//           resolve('SUCCESS');
+//         } else {
+//           // just checking the most recent
+//           const [firstQueueKey] = queueKeys;
+
+//           // recursiveness... we've created a poller essentially
+//           fetchData(FETCH_POLL_INTERVAL);
+//         }
+//       }
+//     }, interval);
+
+//   // we pass in 0 as the interval because we don't need to
+//   // wait the first time.
+//   fetchData(0);
+// });
 
 export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
   try {
