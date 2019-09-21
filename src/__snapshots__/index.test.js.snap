@@ -4,6 +4,7 @@ exports[`@foo-software/lighthouse-trigger should match snapshot 1`] = `
 Object {
   "fetchAndWaitForLighthouseAudits": [Function],
   "fetchLighthouseAudits": [Function],
+  "lighthouseCheck": [Function],
   "triggerLighthouse": [Function],
 }
 `;
