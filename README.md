@@ -32,7 +32,7 @@ Calling `lighthouseCheck` in the example below will trigger Lighthouse audits fo
 const { lighthouseCheck } = require('@foo-software/lighthouse-check');
 
 const init = async () => {
-  const response = await lighthouseCheck ({
+  const response = await lighthouseCheck({
     apiToken: 'abc123'
   });
 
