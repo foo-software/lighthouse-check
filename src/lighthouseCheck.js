@@ -4,12 +4,20 @@ import triggerLighthouse from './triggerLighthouse';
 import { NAME, SUCCESS_CODE_GENERIC } from './constants';
 import { ERROR_NO_RESULTS } from './errorCodes';
 
-export default ({ apiToken, tag, urls, verbose = true, wait = true }) =>
+export default ({
+  apiToken,
+  tag,
+  timeout,
+  urls,
+  verbose = true,
+  wait = true
+}) =>
   new Promise(async (resolve, reject) => {
     try {
       const triggerResult = await triggerLighthouse({
         apiToken,
         tag,
+        timeout,
         urls,
         verbose
       });

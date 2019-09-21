@@ -53,38 +53,63 @@ lighthouseCheck({
 
 ## Parameters
 
-`lighthouseTrigger` accepts a single configuration object with the below properties we can think of as parameters.
+`lighthouseCheck` accepts a single configuration object with the below properties we can think of as parameters.
 
 <table>
   <tr>
     <th>Name</th>
     <th>Description</th>
     <th>Type</th>
+    <th>Default</th>
     <th>Required</th>
   </tr>
   <tr>
     <td><code>apiToken</code></td>
     <td>The lighthouse-check account API token found in the dashboard.</td>
     <td><code>string</code></td>
+    <td><code>--</code></td>
     <td>yes</td>
-  </tr>
-  <tr>
-    <td><code>urls</code></td>
-    <td>An optional list of URLs represented by their respective API token. URL API tokens can be found in the dashboard.</td>
-    <td><code>array</code></td>
-    <td>no</td>
   </tr>
   <tr>
     <td><code>tag</code></td>
     <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>).</td>
     <td><code>string</code></td>
+    <td><code>undefined</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td><code>urls</code></td>
+    <td>An optional list of URLs represented by their respective API token. URL API tokens can be found in the dashboard.</td>
+    <td><code>array</code></td>
+    <td><code>undefined</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td><code>verbose</code></td>
+    <td>If <code>true</code>, print out steps and results to the console.</td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td><code>wait</code></td>
+    <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued.</td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td><code>timeout</code></td>
+    <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown.</td>
+    <td><code>number</code></td>
+    <td><code>10</code></td>
     <td>no</td>
   </tr>
 </table>
 
 ## Return Payload
 
-It's important to note that `lighthouseTrigger()` function is encapsulated by a try / catch, so an object should always be returned. Errors are caught, but populated in the return object below.
+`lighthouseCheck()` function returns a promise which either resolves as an object or rejects as an error object. In both cases the payload will be of the same shape documented below.
 
 <table>
   <tr>
@@ -101,11 +126,6 @@ It's important to note that `lighthouseTrigger()` function is encapsulated by a 
     <td><code>data</code></td>
     <td>An array of results returned by the API.</td>
     <td><code>array</code></td>
-  </tr>
-  <tr>
-    <td><code>error</code></td>
-    <td>If there was a problem, this property will typically be populated with an error object. This field is only populated when an error was caught or the params didn't pass validation.</td>
-    <td><code>object</code> (typically an error object)</td>
   </tr>
   <tr>
     <td><code>message</code></td>

@@ -18,7 +18,7 @@ import {
   ERROR_QUEUE_MAX_USED_DAY
 } from './errorCodes';
 
-export default async ({ apiToken, tag, urls = [], verbose }) => {
+export default async ({ apiToken, tag, urls = [], verbose = true }) => {
   try {
     let apiTokens = urls;
 

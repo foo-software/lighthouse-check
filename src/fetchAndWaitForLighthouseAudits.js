@@ -10,9 +10,9 @@ import { ERROR_NO_RESULTS, ERROR_TIMEOUT } from './errorCodes';
 
 export default ({
   apiToken,
-  timeout = DEFAULT_FETCH_AND_WAIT_TIMEOUT_MINUTES,
   queueIds,
-  verbose
+  timeout = DEFAULT_FETCH_AND_WAIT_TIMEOUT_MINUTES,
+  verbose = true
 }) =>
   new Promise((resolve, reject) => {
     const timeoutMilliseconds = 60000 * timeout;
