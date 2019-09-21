@@ -2,7 +2,6 @@ import fetch from 'node-fetch';
 import get from 'lodash.get';
 import LighthouseCheckError from './LighthouseCheckError';
 import {
-  ERROR_PARTIALLY_FAILED,
   ERROR_GENERIC,
   ERROR_NO_RESULTS,
   ERROR_NO_URLS,
