@@ -49,6 +49,7 @@ export default ({
           const auditResults = await fetchAndWaitForLighthouseAudits({
             apiToken,
             queueIds,
+            timeout,
             verbose
           });
 

@@ -16,13 +16,12 @@ export default ({
 }) =>
   new Promise((resolve, reject) => {
     const timeoutMilliseconds = 60000 * timeout;
+    const startTime = Date.now();
     let fetchIndex = 0;
-    let millisecondsPassed = 0;
 
     const fetchData = interval =>
       setTimeout(async () => {
         fetchIndex++;
-        millisecondsPassed = millisecondsPassed + interval;
 
         if (verbose) {
           console.log(
@@ -40,8 +39,9 @@ export default ({
         const areResultsExpected =
           result.data && result.data.length === queueIds.length;
 
-        // have we reached the timeout
-        const isTimeoutReached = millisecondsPassed > timeoutMilliseconds;
+        // have we exceeded the timeout
+        const now = Date.now();
+        const hasExceededTimeout = now - startTime > timeoutMilliseconds;
 
         // has unexpected error
         const isErrorUnexpected =
@@ -87,7 +87,7 @@ export default ({
 
           resolve(audits);
           return;
-        } else if (isTimeoutReached) {
+        } else if (hasExceededTimeout) {
           const errorMessage = `Received ${resultLength} out of ${queueIds.length} results. ${timeout} minute timeout reached.`;
           if (verbose) {
             console.log(`${NAME}:`, errorMessage);
