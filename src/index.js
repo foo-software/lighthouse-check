@@ -2,11 +2,12 @@ import fetch from 'node-fetch';
 import get from 'lodash.get';
 import LighthouseCheckError from './LighthouseCheckError';
 import {
-  ERROR_CODE_ATTEMPT_FAILED,
-  ERROR_CODE_GENERIC,
-  ERROR_CODE_NO_RESULTS,
-  ERROR_CODE_NO_URLS,
-  ERROR_CODE_UNAUTHORIZED,
+  ERROR_PARTIALLY_FAILED,
+  ERROR_GENERIC,
+  ERROR_NO_RESULTS,
+  ERROR_NO_URLS,
+  ERROR_TIMEOUT,
+  ERROR_UNAUTHORIZED,
   ERROR_QUEUE_MAX_USED_DAY
 } from './errorCodes';
 
@@ -14,7 +15,8 @@ const API_URL = process.env.API_URL || 'https://www.foo.software/api/v1';
 const API_PAGES_PATH = '/pages';
 const API_QUEUE_ITEMS_PATH = '/queue/items';
 const API_LIGHTHOUSE_AUDIT_PATH = '/lighthouseAudits/queueIds';
-const DEFAULT_TAG = 'lighthouse-check';
+const NAME = 'lighthouse-check';
+const DEFAULT_TAG = NAME;
 const SUCCESS_CODE_GENERIC = 'SUCCESS';
 const TRIGGER_TYPE = 'lighthouseAudit';
 
@@ -39,7 +41,7 @@ export const fetchLighthouseAudits = async ({ apiToken, queueIds }) => {
 
     if (lighthouseAuditsJson.status >= 400) {
       throw new LighthouseCheckError('No results found.', {
-        code: ERROR_CODE_NO_RESULTS
+        code: ERROR_NO_RESULTS
       });
     }
 
@@ -57,55 +59,115 @@ export const fetchLighthouseAudits = async ({ apiToken, queueIds }) => {
     };
   } catch (error) {
     return {
-      code: error.code || ERROR_CODE_GENERIC,
+      code: error.code || ERROR_GENERIC,
       error
     };
   }
 };
 
-// const FETCH_POLL_INTERVAL = 10000; // 10 seconds
-// export const fetchAndWaitForLighthouseAudits = async ({
-//   apiToken,
-//   timeout,
-//   queueIds,
-//   verbose,
-// }) => new Promise((resolve, reject) => {
-//   let currentMilliseconds = 0;
-//   const fetchData = interval =>
-//     setTimeout(async () => {
-//       const result = await fetchLighthouseAudits({
-//         apiToken,
-//         queueIds
-//       });
+// 10 minutes
+const DEFAULT_FETCH_AND_WAIT_TIMEOUT_MINUTES = 10;
 
-//       if (!result) {
-//         reject('FAIL_FETCH');
-//       } else {
-//         const queue = get(result, 'data.queue', {});
-//         const queueKeys = Object.keys(queue);
+// 10 seconds
+const FETCH_POLL_INTERVAL_SECONDS = 10;
+const FETCH_POLL_INTERVAL = FETCH_POLL_INTERVAL_SECONDS * 1000;
 
-//         if (!queueKeys.length) {
-//           resolve('SUCCESS');
-//         } else {
-//           // just checking the most recent
-//           const [firstQueueKey] = queueKeys;
+export const fetchAndWaitForLighthouseAudits = ({
+  apiToken,
+  timeout = DEFAULT_FETCH_AND_WAIT_TIMEOUT_MINUTES,
+  queueIds,
+  verbose
+}) =>
+  new Promise((resolve, reject) => {
+    const timeoutMilliseconds = 60000 * timeout;
+    let fetchIndex = 0;
+    let millisecondsPassed = 0;
 
-//           // recursiveness... we've created a poller essentially
-//           fetchData(FETCH_POLL_INTERVAL);
-//         }
-//       }
-//     }, interval);
+    const fetchData = interval =>
+      setTimeout(async () => {
+        fetchIndex++;
+        millisecondsPassed = millisecondsPassed + interval;
 
-//   // we pass in 0 as the interval because we don't need to
-//   // wait the first time.
-//   fetchData(0);
-// });
+        if (verbose) {
+          console.log(
+            `${NAME}:`,
+            `Starting Lighthouse fetch attempt ${fetchIndex}.`
+          );
+        }
 
-export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
+        const result = await fetchLighthouseAudits({
+          apiToken,
+          queueIds
+        });
+
+        // do we have the expected number of results
+        const areResultsExpected =
+          result.data && result.data.length === queueIds.length;
+
+        // have we reached the timeout
+        const isTimeoutReached = timeoutMilliseconds === millisecondsPassed;
+
+        // has unexpected error
+        const isErrorUnexpected =
+          result.error &&
+          (!result.error.code || result.error.code !== ERROR_NO_RESULTS);
+
+        if (isErrorUnexpected) {
+          if (verbose) {
+            console.log(
+              `${NAME}:`,
+              'An unexpected error occurred:\n',
+              result.error
+            );
+          }
+          reject(result.error);
+        } else if (areResultsExpected) {
+          resolve(result);
+        } else if (isTimeoutReached) {
+          const errorMessage = `Fetched results, but the requested enqueued items are incomplete. Received ${resultLength} out of ${queueIds.length}. ${timeout} minute timeout reached.`;
+          if (verbose) {
+            console.log(`${NAME}:`, errorMessage);
+          }
+
+          reject(
+            new LighthouseCheckError(errorMessage, {
+              code: ERROR_TIMEOUT
+            })
+          );
+        } else {
+          if (verbose) {
+            const resultLength = !Array.isArray(result.data)
+              ? 0
+              : result.data.length;
+            console.log(
+              `${NAME}:`,
+              `Fetched results, but the requested enqueued items are incomplete. Received ${resultLength} out of ${queueIds.length}. Trying again in ${FETCH_POLL_INTERVAL_SECONDS} seconds.`
+            );
+          }
+
+          fetchData(FETCH_POLL_INTERVAL);
+        }
+      }, interval);
+
+    // we pass in 0 as the interval because we don't need to
+    // wait the first time.
+    fetchData(0);
+  });
+
+export const triggerLighthouse = async ({
+  apiToken,
+  tag,
+  urls = [],
+  verbose
+}) => {
   try {
     let apiTokens = urls;
 
     if (!Array.isArray(urls) || !urls.length) {
+      if (verbose) {
+        console.log(`${NAME}:`, 'Fetching URLs from account.');
+      }
+
       const pagesResponse = await fetch(`${API_URL}${API_PAGES_PATH}`, {
         method: 'get',
         headers: {
@@ -116,22 +178,34 @@ export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
       const pagesJson = await pagesResponse.json();
 
       if (pagesJson.status >= 400) {
-        throw new LighthouseCheckError(
-          `Account wasn't found for the provided API token.`,
-          {
-            code: ERROR_CODE_UNAUTHORIZED
-          }
-        );
+        const errorMessage = `Account wasn't found for the provided API token.`;
+        if (verbose) {
+          console.log(`${NAME}:`, errorMessage);
+        }
+
+        throw new LighthouseCheckError(errorMessage, {
+          code: ERROR_UNAUTHORIZED
+        });
       }
 
       const pages = get(pagesJson, 'data.page', []);
       if (!pages.length) {
-        throw new LighthouseCheckError('No URLs were found for this account.', {
-          code: ERROR_CODE_NO_URLS
+        const errorMessage = 'No URLs were found for this account.';
+
+        if (verbose) {
+          console.log(`${NAME}:`, errorMessage);
+        }
+
+        throw new LighthouseCheckError(errorMessage, {
+          code: ERROR_NO_URLS
         });
       }
 
       apiTokens = pages.map(current => current.apiToken);
+    }
+
+    if (verbose) {
+      console.log(`${NAME}:`, 'Enqueueing Lighthouse audits.');
     }
 
     // enqueue urls for Lighthouse audits
@@ -155,8 +229,13 @@ export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
 
     // if no results
     if (!queue.results.length) {
-      throw new LighthouseCheckError('No results.', {
-        code: ERROR_CODE_NO_RESULTS
+      const errorMessage = 'No results.';
+      if (verbose) {
+        console.log(`${NAME}:`, errorMessage);
+      }
+
+      throw new LighthouseCheckError(errorMessage, {
+        code: ERROR_NO_RESULTS
       });
     }
 
@@ -168,6 +247,10 @@ export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
           ? queue.results[0].message
           : 'All URLs failed to be enqueued. Examine the "data" property of this error for details.';
 
+      if (verbose) {
+        console.log(`${NAME}:`, errorMessage);
+      }
+
       throw new LighthouseCheckError(errorMessage, {
         code: errorCode,
         data: queue.results
@@ -175,28 +258,38 @@ export const triggerLighthouse = async ({ apiToken, tag, urls = [] }) => {
     }
 
     // if only some urls succeeded to be enqueued...
-    if (queue.errors) {
-      throw new LighthouseCheckError(
-        'Only some of your account URLs were enqueued. Examine the "data" property of this error for details. Typically this occurs when daily limit has been met for a given URL. Check your account limits online.',
-        {
-          code: ERROR_CODE_ATTEMPT_FAILED,
-          data: queue.results
-        }
-      );
+    const successResultLength = queue.results.length - queue.errors;
+
+    const message =
+      successResultLength < queue.results.length
+        ? `Only ${
+            successResultLength > 1 ? 'some' : 'one'
+          } of your account URLs were enqueued. Typically this occurs when daily limit has been met for a given URL. Check your account limits online.`
+        : `${queue.results.length} ${
+            queue.results.length > 1 ? 'URLs' : 'URL'
+          } successfully enqueued for Lighthouse. Visit dashboard for results.`;
+
+    if (verbose) {
+      console.log(`${NAME}:`, message);
     }
 
     // success
     return {
       code: SUCCESS_CODE_GENERIC,
       data: queue.results,
-      message: `${queue.results.length} ${
-        queue.results.length > 1 ? 'URLs' : 'URL'
-      } successfully enqueued for Lighthouse. Visit dashboard for results.`
+      message
     };
   } catch (error) {
-    return {
-      code: error.code || ERROR_CODE_GENERIC,
+    const result = {
+      code: error.code || ERROR_GENERIC,
       error
     };
+
+    // if an error occurred but we still have data (typically if only some URLs failed)
+    if (error.data) {
+      result.data = error.data;
+    }
+
+    return result;
   }
 };

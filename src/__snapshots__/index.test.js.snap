@@ -2,6 +2,7 @@
 
 exports[`@foo-software/lighthouse-trigger should match snapshot 1`] = `
 Object {
+  "fetchAndWaitForLighthouseAudits": [Function],
   "fetchLighthouseAudits": [Function],
   "triggerLighthouse": [Function],
 }
@@ -10,6 +11,18 @@ Object {
 exports[`triggerLighthouse() on fail should return an expected response payload when all URLs failed to queue 1`] = `
 Object {
   "code": "SOME_ERROR",
+  "data": Array [
+    Object {
+      "code": "SOME_ERROR",
+      "message": "some error message",
+      "status": 401,
+    },
+    Object {
+      "code": "SOME_ERROR",
+      "message": "some error message",
+      "status": 401,
+    },
+  ],
   "error": [Error: All URLs failed to be enqueued. Examine the "data" property of this error for details.],
 }
 `;
@@ -17,14 +30,42 @@ Object {
 exports[`triggerLighthouse() on fail should return an expected response payload when all URLs failed to queue due to max limit reached 1`] = `
 Object {
   "code": "ERROR_QUEUE_MAX_USED_DAY",
+  "data": Array [
+    Object {
+      "code": "ERROR_QUEUE_MAX_USED_DAY",
+      "message": "Max limit of 5 triggers reached.",
+      "status": 401,
+    },
+    Object {
+      "code": "ERROR_QUEUE_MAX_USED_DAY",
+      "message": "Max limit of 5 triggers reached.",
+      "status": 401,
+    },
+  ],
   "error": [Error: Max limit of 5 triggers reached.],
 }
 `;
 
 exports[`triggerLighthouse() on fail should return an expected response payload when all some URLs failed to queue but some succeeded 1`] = `
 Object {
-  "code": "ERROR_ATTEMPT_FAILED",
-  "error": [Error: Only some of your account URLs were enqueued. Examine the "data" property of this error for details. Typically this occurs when daily limit has been met for a given URL. Check your account limits online.],
+  "code": "SUCCESS",
+  "data": Array [
+    Object {
+      "code": "ERROR_QUEUE_MAX_USED_DAY",
+      "message": "Max limit of 5 triggers reached.",
+      "status": 401,
+    },
+    Object {
+      "code": "ERROR_QUEUE_MAX_USED_DAY",
+      "message": "Max limit of 5 triggers reached.",
+      "status": 401,
+    },
+    Object {
+      "code": "SUCCESS_QUEUE_ADD",
+      "status": 200,
+    },
+  ],
+  "message": "Only one of your account URLs were enqueued. Typically this occurs when daily limit has been met for a given URL. Check your account limits online.",
 }
 `;
 
