@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import get from 'lodash.get';
 import LighthouseCheckError from './LighthouseCheckError';
+import { LIGHTHOUSE_API_URL } from './constants';
 import {
   ERROR_GENERIC,
   ERROR_NO_RESULTS,
@@ -10,7 +11,7 @@ import {
   ERROR_QUEUE_MAX_USED_DAY
 } from './errorCodes';
 
-const API_URL = process.env.API_URL || 'https://www.foo.software/api/v1';
+const API_URL = process.env.API_URL || LIGHTHOUSE_API_URL;
 const API_PAGES_PATH = '/pages';
 const API_QUEUE_ITEMS_PATH = '/queue/items';
 const API_LIGHTHOUSE_AUDIT_PATH = '/lighthouseAudits/queueIds';
