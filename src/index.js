@@ -121,7 +121,20 @@ export const fetchAndWaitForLighthouseAudits = ({
           }
           reject(result.error);
         } else if (areResultsExpected) {
-          resolve(result);
+          const audits = result.data.map(current => ({
+            name: current.name,
+            report: current.report,
+            url: current.url,
+            tag: current.tag,
+            scores: {
+              accessibility: current.scoreAccessibility,
+              bestPractices: current.scoreBestPractices,
+              performance: current.scorePerformance,
+              progressiveWebApp: current.scoreProgressiveWebApp,
+              seo: current.scoreSeo
+            }
+          }));
+          resolve(audits);
         } else if (isTimeoutReached) {
           const errorMessage = `Fetched results, but the requested enqueued items are incomplete. Received ${resultLength} out of ${queueIds.length}. ${timeout} minute timeout reached.`;
           if (verbose) {
