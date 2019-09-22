@@ -77,14 +77,6 @@ export default ({
             }
           }));
 
-          if (verbose) {
-            console.log(
-              `${NAME}: Success!`,
-              '\n------- results -------\n',
-              audits
-            );
-          }
-
           resolve(audits);
           return;
         } else if (hasExceededTimeout) {
