@@ -35,7 +35,7 @@ export default async ({
       // if we have a branch
       if (branch) {
         const branchText = !pr ? branch : `<${pr}|${branch}>`;
-        text = `${text} Change made in \`${branchText}\` branch.`;
+        text = `${text} Change made in \`${branchText}\`.`;
       }
 
       let footer;
@@ -48,7 +48,7 @@ export default async ({
       }
 
       await webhook.send({
-        text,
+        text: result.url,
         attachments: [
           {
             color: '#2091fa',
@@ -64,7 +64,7 @@ export default async ({
                 short: true
               }))
             ],
-            text: result.url,
+            text,
             thumb_url:
               'https://s3.amazonaws.com/foo.software/images/logos/lighthouse.png',
             ...(!footer
