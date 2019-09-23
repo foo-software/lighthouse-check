@@ -2,7 +2,7 @@
 
 # `@foo-software/lighthouse-check`
 
-> An NPM module to run Lighthouse audits programatically. This project aims to extend base functionality of simply running an audit by providing bells and whistles for DevOps workflows. Easily implement in your Continuous Integration or Continuous Delivery pipeline.
+> An NPM module and CLI to run Lighthouse audits programatically. This project aims to extend base functionality of simply running an audit by providing bells and whistles for DevOps workflows. Easily implement in your Continuous Integration or Continuous Delivery pipeline.
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
@@ -13,8 +13,8 @@
 - Optionally save an HTML report locally.
 - Optionally save an HTML report in an AWS S3 bucket.
 - Easy setup with Slack Webhooks. Just add your Webhook URL and `lighthouse-check` will send results with details about authors and links to change sets if applicable (on GitHub).
-- A CLI - see [`lighthouse-check-cli`](https://github.com/foo-software/lighthouse-check-cli)
-- A Docker image - see the [`lighthouse-check-cli` project](https://github.com/foo-software/lighthouse-check-cli#docker) for details.
+- A CLI - see [usage](#cli-usage).
+- A Docker image - see [usage](#docker-usage).
 
 ## Install
 
@@ -215,6 +215,27 @@ import { lighthouseCheck } from '@foo-software/lighthouse-check';
     <td><code>string</code></td>
   </tr>
 </table>
+
+## CLI Usage
+
+Running `lighthouse-check` in the example below will run Lighthouse audits against `https://www.foo.software` and `https://www.foo.software/contact`.
+
+```bash
+$ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact"
+```
+
+## CLI Options
+
+All options mirror [the NPM module](#options). The only difference is that array options like `urls` are passed in as a comma-separated string as an argument using the CLI.
+
+## Docker Usage
+
+```bash
+$ docker pull foosoftware/lighthouse-check:latest
+$ docker run foosoftware/lighthouse-check:latest \
+  lighthouse-check --verbose \
+  --urls "https://www.foo.software,https://www.foo.software/contact"
+```
 
 ## Credits
 
