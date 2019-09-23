@@ -49,6 +49,7 @@
     ]
   },
   "dependencies": {
+    "@foo-software/lighthouse-persist": "0.0.10",
     "lodash.get": "^4.4.2",
     "node-fetch": "^2.6.0"
   },
