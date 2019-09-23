@@ -2,6 +2,7 @@ import fetchAndWaitForLighthouseAudits from './fetchAndWaitForLighthouseAudits';
 import LighthouseCheckError from './LighthouseCheckError';
 import triggerLighthouse from './triggerLighthouse';
 import localLighthouse from './localLighthouse';
+import slackNotify from './slackNotify';
 import { NAME, SUCCESS_CODE_GENERIC } from './constants';
 import { ERROR_NO_RESULTS } from './errorCodes';
 
@@ -20,7 +21,8 @@ export default ({
   timeout,
   urls,
   verbose = true,
-  wait = true
+  wait = true,
+  slackWebhookUrl
 }) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -70,6 +72,14 @@ export default ({
               verbose
             });
 
+            if (slackWebhookUrl) {
+              await slackNotify({
+                results: auditResults,
+                slackWebhookUrl,
+                verbose
+              });
+            }
+
             // success
             resolve({
               code: SUCCESS_CODE_GENERIC,
@@ -111,6 +121,14 @@ export default ({
             })
           );
         } else {
+          if (slackWebhookUrl) {
+            await slackNotify({
+              results: lighthouseAudits,
+              slackWebhookUrl,
+              verbose
+            });
+          }
+
           // success
           resolve({
             code: SUCCESS_CODE_GENERIC,
