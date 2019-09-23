@@ -2,9 +2,17 @@ import { IncomingWebhook } from '@slack/webhook';
 import lighthouseAuditTitles from './lighthouseAuditTitles';
 import { NAME } from './constants';
 
+const {
+  CIRCLE_BRANCH: branch,
+  CIRCLE_PULL_REQUEST: pr,
+  CIRCLE_SHA1: sha,
+  CIRCLE_USERNAME: author
+} = process.env;
+
 export default async ({ results, slackWebhookUrl, verbose }) => {
   try {
     const webhook = new IncomingWebhook(slackWebhookUrl);
+    console.log('test this', process.env.CIRCLE_COMPARE_URL);
 
     for (const result of results) {
       // get the average of all socres
@@ -16,9 +24,24 @@ export default async ({ results, slackWebhookUrl, verbose }) => {
       const average = Math.floor(sum / values.length);
 
       // link the report if we have it
-      const text = !result.report
-        ? 'Lighthouse Audit'
-        : `<${result.report}|Lighthouse Audit>`;
+      let text = !result.report
+        ? 'Lighthouse Audit.'
+        : `<${result.report}|Lighthouse Audit>.`;
+
+      // if we have a branch
+      if (branch) {
+        const branchText = !pr ? branch : `<${pr}|${branch}>`;
+        text = `${text} ${branchText}`;
+      }
+
+      let footer;
+      if (author) {
+        footer = `by ${author}`;
+
+        if (sha) {
+          footer = `${footer} in ${sha.slice(0, 10)}`;
+        }
+      }
 
       await webhook.send({
         text,
@@ -39,7 +62,12 @@ export default async ({ results, slackWebhookUrl, verbose }) => {
             ],
             text: result.url,
             thumb_url:
-              'https://s3.amazonaws.com/foo.software/images/logos/lighthouse.png'
+              'https://s3.amazonaws.com/foo.software/images/logos/lighthouse.png',
+            ...(!footer
+              ? {}
+              : {
+                  footer
+                })
           }
         ]
       });

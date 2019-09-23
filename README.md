@@ -1,16 +1,19 @@
-## Disclaimer
-
-This project is a work in progress - a pre-release version. Please do not attempt to use yet. The projected release date is middle of October, 2019.
-
-***
-
 [![CircleCI](https://circleci.com/gh/foo-software/lighthouse-check.svg?style=svg)](https://circleci.com/gh/foo-software/lighthouse-check)
 
 # `@foo-software/lighthouse-check`
 
-> An NPM module to trigger Lighthouse audits to be saved in the cloud. Triggers audits for URLs associated with a lighthouse-check.com account. Utilizing this module within a release or integration workflow would be a standard use case.
+> An NPM module to trigger Lighthouse audits programatically. This project aims to extend base functionality of simply running an audit by providing bells and whistles for DevOps workflows. Easily implement in your Continuous Integration or Continuous Delivery pipeline.
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
+
+#### Features
+
+- Simple usage with one paramater (`urls`). If you don't need all the bells and whistles this will suffice!
+- Run multiple Lighthouse audits with one command (specify multiple URLs... or just one).
+- Optionally save an HTML report locally.
+- Optionally save an HTML report in an AWS S3 bucket.
+- Easy setup with Slack Webhooks. Just add your Webhook URL and `lighthouse-check` will send results with details about authors and links to change sets if applicable (on GitHub).
+- Docker image.
 
 ## Install
 
@@ -63,12 +66,62 @@ lighthouseCheck({
     <th>Default</th>
     <th>Required</th>
   </tr>
+  <!--
+    <tr>
+      <td><code>apiToken</code></td>
+      <td>The lighthouse-check account API token found in the dashboard.</td>
+      <td><code>string</code></td>
+      <td><code>undefined</code></td>
+      <td>yes</td>
+    </tr>
+  -->
   <tr>
-    <td><code>apiToken</code></td>
-    <td>The lighthouse-check account API token found in the dashboard.</td>
+    <td><code>awsAccessKeyId</code></td>
+    <td>The AWS <code>accessKeyId</code> for an S3 bucket.</td>
     <td><code>string</code></td>
-    <td><code>--</code></td>
-    <td>yes</td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>awsBucket</code></td>
+    <td>The AWS <code>Bucket</code> for an S3 bucket.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>awsRegion</code></td>
+    <td>The AWS <code>region</code> for an S3 bucket.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>awsSecretAccessKey</code></td>
+    <td>The AWS <code>secretAccessKey</code> for an S3 bucket.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>emulatedFormFactor</code></td>
+    <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
+    <td><code>oneOf(['mobile', 'desktop']</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>locale</code></td>
+    <td>A locale for Lighthouse reports. Example: <code>ja</code></td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>outputDirectory</code></td>
+    <td>An absolute directory path to output report. You can do this an an alternative or combined with an S3 upload.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>slackWebhookUrl</code></td>
+    <td>A Slack Incoming Webhook URL to send notifications to.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
   </tr>
   <tr>
     <td><code>tag</code></td>
@@ -76,6 +129,18 @@ lighthouseCheck({
     <td><code>string</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
+  </tr>
+  <tr>
+    <td><code>throttlingMethod</code></td>
+    <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
+    <td><code>oneOf(['simulate', 'devtools', 'provided'])</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>throttling</code></td>
+    <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
+    <td><code>oneOf(['mobileSlow4G', 'mobileRegluar3G'])</code></td>
+    <td><code>undefined</code></td>
   </tr>
   <tr>
     <td><code>timeout</code></td>
@@ -89,7 +154,7 @@ lighthouseCheck({
     <td>An optional list of URLs represented by their respective API token. URL API tokens can be found in the dashboard.</td>
     <td><code>array</code></td>
     <td><code>undefined</code></td>
-    <td>no</td>
+    <td>yes</td>
   </tr>
   <tr>
     <td><code>verbose</code></td>
