@@ -2,17 +2,21 @@ import { IncomingWebhook } from '@slack/webhook';
 import lighthouseAuditTitles from './lighthouseAuditTitles';
 import { NAME } from './constants';
 
-const {
-  CIRCLE_BRANCH: branch,
-  CIRCLE_PULL_REQUEST: pr,
-  CIRCLE_SHA1: sha,
-  CIRCLE_USERNAME: author
-} = process.env;
-
-export default async ({ results, slackWebhookUrl, verbose }) => {
+export default async ({
+  author,
+  branch,
+  pr,
+  results,
+  sha,
+  slackWebhookUrl,
+  verbose
+}) => {
   try {
     const webhook = new IncomingWebhook(slackWebhookUrl);
-    console.log('test this', process.env.CIRCLE_COMPARE_URL);
+    console.log(
+      'process.env.CIRCLE_COMPARE_URL',
+      process.env.CIRCLE_COMPARE_URL
+    );
 
     for (const result of results) {
       // get the average of all socres

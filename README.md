@@ -2,7 +2,7 @@
 
 # `@foo-software/lighthouse-check`
 
-> An NPM module to trigger Lighthouse audits programatically. This project aims to extend base functionality of simply running an audit by providing bells and whistles for DevOps workflows. Easily implement in your Continuous Integration or Continuous Delivery pipeline.
+> An NPM module to run Lighthouse audits programatically. This project aims to extend base functionality of simply running an audit by providing bells and whistles for DevOps workflows. Easily implement in your Continuous Integration or Continuous Delivery pipeline.
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
@@ -13,7 +13,8 @@
 - Optionally save an HTML report locally.
 - Optionally save an HTML report in an AWS S3 bucket.
 - Easy setup with Slack Webhooks. Just add your Webhook URL and `lighthouse-check` will send results with details about authors and links to change sets if applicable (on GitHub).
-- Docker image.
+- A CLI - see [`lighthouse-check-cli`](https://github.com/foo-software/lighthouse-check-cli)
+- A Docker image - see the [`lighthouse-check-cli` project](https://github.com/foo-software/lighthouse-check-cli#docker) for details.
 
 ## Install
 
@@ -76,6 +77,18 @@ lighthouseCheck({
     </tr>
   -->
   <tr>
+    <td><code>author</code></td>
+    <td>For Slack notifications: A user handle, typically from GitHub.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>branch</code></td>
+    <td>For Slack notifications: A version control branch, typically from GitHub.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
     <td><code>awsAccessKeyId</code></td>
     <td>The AWS <code>accessKeyId</code> for an S3 bucket.</td>
     <td><code>string</code></td>
@@ -118,8 +131,20 @@ lighthouseCheck({
     <td><code>undefined</code></td>
   </tr>
   <tr>
+    <td><code>pr</code></td>
+    <td>For Slack notifications: A version control pull request URL, typically from GitHub.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
     <td><code>slackWebhookUrl</code></td>
     <td>A Slack Incoming Webhook URL to send notifications to.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
+    <td><code>sha</code></td>
+    <td>For Slack notifications: A version control <code>sha</code>, typically from GitHub.</td>
     <td><code>string</code></td>
     <td><code>undefined</code></td>
   </tr>

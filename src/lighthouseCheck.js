@@ -8,13 +8,17 @@ import { ERROR_NO_RESULTS } from './errorCodes';
 
 export default ({
   apiToken,
+  author,
   awsAccessKeyId,
   awsBucket,
   awsRegion,
   awsSecretAccessKey,
   emulatedFormFactor,
+  branch,
   locale,
   outputDirectory,
+  pr,
+  sha,
   tag,
   throttling,
   throttlingMethod,
@@ -74,7 +78,11 @@ export default ({
 
             if (slackWebhookUrl) {
               await slackNotify({
+                author,
+                branch,
+                pr,
                 results: auditResults,
+                sha,
                 slackWebhookUrl,
                 verbose
               });
@@ -123,7 +131,11 @@ export default ({
         } else {
           if (slackWebhookUrl) {
             await slackNotify({
+              author,
+              branch,
+              pr,
               results: lighthouseAudits,
+              sha,
               slackWebhookUrl,
               verbose
             });
