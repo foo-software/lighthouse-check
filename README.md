@@ -6,7 +6,7 @@
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
-#### Features
+## Features
 
 - Simple usage with one paramater (`urls`). If you don't need all the bells and whistles this will suffice!
 - Run multiple Lighthouse audits with one command (specify multiple URLs... or just one).
