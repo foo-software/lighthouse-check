@@ -10,6 +10,7 @@
   "keywords": [
     "lighthouse",
     "google",
+    "cli",
     "performance",
     "accessibility",
     "seo",
@@ -25,6 +26,9 @@
     "url": "https://github.com/foo-software/lighthouse-check/issues"
   },
   "homepage": "https://github.com/foo-software/lighthouse-check#readme",
+  "bin": {
+    "lighthouse-check": "dist/bin/lighthouse-check.js"
+  },
   "jest": {
     "modulePathIgnorePatterns": [
       "<rootDir>/dist/"
