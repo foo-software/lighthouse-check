@@ -1,6 +1,6 @@
 {
   "name": "@foo-software/lighthouse-check",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "An NPM module for automated Lighthouse audits.",
   "main": "dist/index.js",
   "repository": {
