@@ -5,7 +5,7 @@ import { NAME } from './constants';
 export default async ({
   author,
   branch,
-  pr,
+  pr = prParam,
   results,
   sha,
   slackWebhookUrl,
@@ -13,10 +13,10 @@ export default async ({
 }) => {
   try {
     const webhook = new IncomingWebhook(slackWebhookUrl);
-    console.log(
-      'process.env.CIRCLE_COMPARE_URL',
-      process.env.CIRCLE_COMPARE_URL
-    );
+
+    // sometimes we get weird input
+    const pr =
+      typeof prParam !== 'string' || prParam === 'true' ? undefined : prParam;
 
     for (const result of results) {
       // get the average of all socres
