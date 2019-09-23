@@ -10,11 +10,10 @@ export default async ({ results, slackWebhookUrl, verbose }) => {
       // get the average of all socres
       const values = Object.values(result.scores);
       const sum = values.reduce(
-        (accumulator, current) =>
-          Math.floor(parseInt(current, 10) + accumulator),
+        (accumulator, current) => current + accumulator,
         0
       );
-      const average = sum / values.length;
+      const average = Math.floor(sum / values.length);
 
       // link the report if we have it
       const text = !result.report
