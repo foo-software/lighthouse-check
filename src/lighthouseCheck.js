@@ -26,7 +26,6 @@ export default ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
-      console.log('slackWebhookUrl', slackWebhookUrl);
       // we either get the result from the API or directly from
       // running a lighthouse audit locally.
       const isLocalAudit = !apiToken;
