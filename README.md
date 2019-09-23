@@ -30,34 +30,26 @@ yarn add @foo-software/lighthouse-check
 
 ## Usage
 
-Calling `lighthouseCheck` in the example below will trigger Lighthouse audits for all URLs associated with the account having an API token of `abc123`.
+Calling `lighthouseCheck` will run Lighthouse audits against `https://www.foo.software` and `https://www.foo.software/contact`.
 
 ```javascript
-const { lighthouseCheck } = require('@foo-software/lighthouse-check');
+import { lighthouseCheck } from '@foo-software/lighthouse-check';
 
-const init = async () => {
+(async () => {
   const response = await lighthouseCheck({
-    apiToken: 'abc123'
+    urls: [
+      'https://www.foo.software',
+      'https://www.foo.software/contact'
+    ]
   });
 
   console.log('response', response);
-};
-
-init();
+})();
 ```
 
-To run Lighthouse audits on a subset of URLs, you can specify an array of URLs denoted by their respective API tokens. Example below.
+## Options
 
-```javascript
-lighthouseCheck({
-  apiToken: 'abc123',
-  urls: ['cde456', 'fgh789']
-});
-```
-
-## Parameters
-
-`lighthouseCheck` accepts a single configuration object with the below properties we can think of as parameters.
+`lighthouseCheck` accepts a single configuration object with the below properties.
 
 <table>
   <tr>
