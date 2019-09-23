@@ -35,7 +35,7 @@ export default async ({
       // if we have a branch
       if (branch) {
         const branchText = !pr ? branch : `<${pr}|${branch}>`;
-        text = `${text} Change made in ${branchText}`;
+        text = `${text} Change made in \`${branchText}\` branch.`;
       }
 
       let footer;
