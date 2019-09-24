@@ -8,7 +8,7 @@
 
 # Features
 
-- [Simple usage](#basic-usage) - only one parameter is required (`urls`).
+- [Simple usage](#basic-usage) - only one parameter required.
 - Run multiple Lighthouse audits with one command.
 - Optionally [save an HTML report locally](#saving-reports-locally).
 - Optionally [save an HTML report in an AWS S3 bucket](#saving-reports-to-s3).
