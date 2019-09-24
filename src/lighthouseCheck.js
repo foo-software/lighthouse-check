@@ -148,6 +148,8 @@ export default ({
             });
           }
 
+          logResults({ results: lighthouseAudits });
+
           // success
           resolve({
             code: SUCCESS_CODE_GENERIC,
