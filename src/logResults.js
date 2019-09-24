@@ -20,6 +20,7 @@ export default ({ results }) => {
   };
 
   // log the header
+  console.log('\n');
   console.log(table(headerTable, headerTableConfig));
 
   // log results
