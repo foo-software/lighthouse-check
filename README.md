@@ -2,33 +2,33 @@
 
 # `@foo-software/lighthouse-check`
 
-> An NPM module and CLI to run Lighthouse audits programatically. This project aims to extend base functionality of simply running an audit by providing bells and whistles for DevOps workflows. Easily implement in your Continuous Integration or Continuous Delivery pipeline.
+> An NPM module and CLI to run Lighthouse audits programmatically. This project aims to add bells and whistles to automated Lighthouse testing for DevOps workflows. Easily implement in your Continuous Integration or Continuous Delivery pipeline.
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
-## Features
+# Features
 
-- Simple usage with one paramater (`urls`). If you don't need all the bells and whistles this will suffice!
-- Run multiple Lighthouse audits with one command (specify multiple URLs... or just one).
-- Optionally save an HTML report locally.
-- Optionally save an HTML report in an AWS S3 bucket.
-- Easy setup with Slack Webhooks. Just add your Webhook URL and `lighthouse-check` will send results with details about authors and links to change sets if applicable (on GitHub).
-- A CLI - see [usage](#cli-usage).
-- A Docker image - see [usage](#docker-usage).
+- [Simple usage](#basic-usage) - only one parameter required.
+- Run **multiple** Lighthouse audits with one command. 
+- Optionally [save an HTML report locally](#saving-reports-locally).
+- Optionally [save an HTML report in an AWS S3 bucket](#saving-reports-to-s3).
+- [Easy setup with Slack Webhooks](#implementing-with-slack). Just add your Webhook URL and `lighthouse-check` will send results and optionally include versioning data like branch, author, PR, etc (typically from GitHub).
+- NPM module for programmatic [usage](#basic-usage).
+- CLI - see [CLI Usage](#cli-usage).
+- Docker - see [Docker Usage](#docker-usage).
+- Support for implementations like [CircleCI](#implementing-with-circleci).
 
-## Install
+# Install
 
 ```bash
 npm install @foo-software/lighthouse-check
 ```
 
-or
+# Usage
 
-```bash
-yarn add @foo-software/lighthouse-check
-```
+`@foo-software/lighthouse-check` provides several functionalities beyond standard Lighthouse audits. It's recommended to start with a basic implementation and expand on it as needed.
 
-## Usage
+## Basic Usage
 
 Calling `lighthouseCheck` will run Lighthouse audits against `https://www.foo.software` and `https://www.foo.software/contact`.
 
@@ -46,6 +46,166 @@ import { lighthouseCheck } from '@foo-software/lighthouse-check';
   console.log('response', response);
 })();
 ```
+
+Or via CLI.
+
+```bash
+$ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact"
+```
+
+The CLI will log the results.
+
+<img alt="lighthouse-check CLI output" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-cli-output.jpg" width="600" />
+
+## Saving Reports Locally
+
+You may notice above we had two lines of output; `Report` and `Local Report`. These values are populated when options are provided to save the report locally and to S3. These options are not required and can be used together or alone.
+
+Saving a report locally example below.
+
+```javascript
+import { lighthouseCheck } from '@foo-software/lighthouse-check';
+
+(async () => {
+  const response = await lighthouseCheck({
+    // relative to the file. NOTE: when using the CLI `--outputDirectory` is relative
+    // to where the command is being run from.
+    outputDirectory: '../artifacts',
+    urls: [
+      'https://www.foo.software',
+      'https://www.foo.software/contact'
+    ]
+  });
+
+  console.log('response', response);
+})();
+```
+
+Or via CLI.
+
+```bash
+$ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact" \
+  --ouputDirectory "./artifacts"
+```
+
+## Saving Reports to S3
+
+```javascript
+import { lighthouseCheck } from '@foo-software/lighthouse-check';
+
+(async () => {
+  const response = await lighthouseCheck({
+    awsAccessKeyId: 'abc123',
+    awsBucket: 'my-bucket',
+    awsRegion: 'us-east-1',
+    awsSecretAccessKey: 'def456',
+    urls: [
+      'https://www.foo.software',
+      'https://www.foo.software/contact'
+    ]
+  });
+
+  console.log('response', response);
+})();
+```
+
+Or via CLI.
+
+```bash
+$ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact" \
+  --awsAccessKeyId abc123 \
+  --awsBucket my-bucket \
+  --awsRegion us-east-1 \
+  --awsSecretAccessKey def456 \
+```
+
+## Implementing with Slack
+
+Below is a basic Slack implementation. To see how you can accomplish notifications with code versioning data - see the [CircleCI example](#implementing-with-circleci) (ie GitHub authors, PRs, branches, etc).
+
+```javascript
+import { lighthouseCheck } from '@foo-software/lighthouse-check';
+
+(async () => {
+  const response = await lighthouseCheck({
+    slackWebhookUrl: 'https://www.my-slack-webhook-url.com'
+    urls: [
+      'https://www.foo.software',
+      'https://www.foo.software/contact'
+    ]
+  });
+
+  console.log('response', response);
+})();
+```
+
+Or via CLI.
+
+```bash
+$ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact" \
+  --slackWebhookUrl "https://www.my-slack-webhook-url.com"
+```
+
+The below screenshot shows an advanced implementation as detailed in the [CircleCI example](#implementing-with-circleci).
+
+<img alt="lighthouse-check Slack Notification" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-slack.png" width="600" />
+
+## Implementing with CircleCI
+
+In the below example we run Lighthouse audits on two URLs, save reports as artifacts, deploy reports to S3 and send a Slack notification with GitHub info. We defined environment variables like `AWS_BUCKET` in the [CircleCI project settings](https://circleci.com/docs/2.0/settings/#project-settings-page).
+
+```yaml
+version: 2
+jobs:
+  # build, test, deploy, etc
+  # ...
+  post-deploy:
+    docker:
+      - image: foosoftware/lighthouse-check:latest
+    steps:
+      - checkout
+      - run:
+          name: Run Lighthouse Audits and Save Results
+          command: |
+            mkdir /tmp/artifacts
+            lighthouse-check --verbose \
+              --author $CIRCLE_USERNAME \
+              --awsAccessKeyId $AWS_ACCESS_KEY_ID \
+              --awsBucket $AWS_BUCKET \
+              --awsRegion $AWS_REGION \
+              --awsSecretAccessKey $AWS_SECRET_ACCESS_KEY \
+              --branch $CIRCLE_BRANCH \
+              --configFile ./lighthouse-check.json \
+              --outputDirectory /tmp/artifacts \
+              --pr $CIRCLE_PULL_REQUEST \
+              --sha $CIRCLE_SHA1 \
+              --slackWebhookUrl $SLACK_WEBHOOK_URL \
+      - store_artifacts:
+          name: Store Artifacts
+          path: /tmp/artifacts
+
+workflows:
+  version: 2
+  test-deploy-post-deploy:
+    jobs:
+      # build, test, deploy, etc
+      # ...
+      - post-deploy:
+          requires:
+            - deploy
+```
+
+<img alt="lighthouse-check CircleCI post-deploy" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-circle-ci.png" width="600" />
+
+Reports are saved as "artifacts".
+
+<img alt="lighthouse-check CircleCI post-deploy artifacts" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci.png" width="600" />
+
+Upon clicking the HTML file artifacts, we can see the full report!
+
+<img alt="lighthouse-check CircleCI post-deploy artifact Lighthouse report" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci-report.png" width="600" />
+
+In the example above we also uploaded reports to S3. Why would we do this? If we want to persist historical data - we don't want to rely on temporary cloud storage.
 
 ## Options
 
@@ -218,7 +378,7 @@ import { lighthouseCheck } from '@foo-software/lighthouse-check';
 
 ## CLI Usage
 
-Running `lighthouse-check` in the example below will run Lighthouse audits against `https://www.foo.software` and `https://www.foo.software/contact`.
+Running `lighthouse-check` in the example below will run Lighthouse audits against `https://www.foo.software` and `https://www.foo.software/contact`. Format is `--option <argument>`. Example below.
 
 ```bash
 $ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact"
