@@ -6,7 +6,7 @@ const tableConfig = {
   border: getBorderCharacters('ramac')
 };
 
-export default ({ result }) => {
+export default ({ results }) => {
   // header
   const headerTable = [['Lighthouse Audit']];
   const headerTableConfig = {
@@ -23,7 +23,7 @@ export default ({ result }) => {
   console.log(table(headerTable, headerTableConfig));
 
   // log results
-  result.forEach(result => {
+  results.forEach(result => {
     console.log(`URL: ${result.url}`);
 
     if (result.report) {
