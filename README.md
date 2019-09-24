@@ -152,7 +152,7 @@ The below screenshot shows an advanced implementation as detailed in the [Circle
 
 ## Implementing with CircleCI
 
-In the below example we run Lighthouse audits on two URLs, save reports as Artifacts, deploy reports to S3 and send a Slack notification with GitHub info. We defined environment variables like `AWS_BUCKET` in the [CircleCI project settings](https://circleci.com/docs/2.0/settings/#project-settings-page).
+In the below example we run Lighthouse audits on two URLs, save reports as artifacts, deploy reports to S3 and send a Slack notification with GitHub info. We defined environment variables like `AWS_BUCKET` in the [CircleCI project settings](https://circleci.com/docs/2.0/settings/#project-settings-page).
 
 ```yaml
 version: 2
@@ -197,15 +197,15 @@ workflows:
 
 <img alt="lighthouse-check CircleCI post-deploy" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-circle-ci.png" width="600" />
 
-The reports saved as "artifacts".
+Reports are saved as "artifacts".
 
 <img alt="lighthouse-check CircleCI post-deploy artifacts" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci.png" width="600" />
 
-And upon clicking the HTML file artifacts, we can see the full report!
+Upon clicking the HTML file artifacts, we can see the full report!
 
 <img alt="lighthouse-check CircleCI post-deploy artifact Lighthouse report" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci-report.png" width="600" />
 
-In the example above we also deployed reports to S3. Why would we do this? If we want to persist historical data - we don't want to rely on temporary cloud storage.
+In the example above we also uploaded reports to S3. Why would we do this? If we want to persist historical data - we don't want to rely on temporary cloud storage.
 
 ## Options
 
