@@ -55,7 +55,7 @@ $ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/con
 
 The CLI will log the results.
 
-<img alt="lighthouse-check CLI output" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-cli-output.jpg">
+<img alt="lighthouse-check CLI output" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-cli-output.jpg" width="600" />
 
 ## Saving Reports Locally
 
@@ -148,7 +148,7 @@ $ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/con
 
 The below screenshot shows an advanced implementation as detailed in the [CircleCI example](#implementing-with-circleci).
 
-<img alt="lighthouse-check Slack Notification" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-slack.png">
+<img alt="lighthouse-check Slack Notification" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-slack.png" width="600" />
 
 ## Implementing with CircleCI
 
@@ -195,15 +195,15 @@ workflows:
             - deploy
 ```
 
-<img alt="lighthouse-check CircleCI post-deploy" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-circle-ci.png">
+<img alt="lighthouse-check CircleCI post-deploy" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-circle-ci.png" width="600" />
 
 The reports saved as "artifacts".
 
-<img alt="lighthouse-check CircleCI post-deploy artifacts" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci.png">
+<img alt="lighthouse-check CircleCI post-deploy artifacts" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci.png" width="600" />
 
 And upon clicking the HTML file artifacts, we can see the full report!
 
-<img alt="lighthouse-check CircleCI post-deploy artifact Lighthouse report" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci-report.png">
+<img alt="lighthouse-check CircleCI post-deploy artifact Lighthouse report" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-artifact-circle-ci-report.png" width="600" />
 
 In the example above we also deployed reports to S3. Why would we do this? If we want to persist historical data - we don't want to rely on temporary cloud storage.
 
