@@ -23,7 +23,7 @@ export default ({ result }) => {
   console.log(table(headerTable, headerTableConfig));
 
   // log results
-  result.data.forEach(result => {
+  result.forEach(result => {
     console.log(`URL: ${result.url}`);
 
     if (result.report) {
