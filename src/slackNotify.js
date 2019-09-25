@@ -5,7 +5,7 @@ import { NAME } from './constants';
 export default async ({
   author,
   branch,
-  pr = prParam,
+  pr: prParam,
   results,
   sha,
   slackWebhookUrl,

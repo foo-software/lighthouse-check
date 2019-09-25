@@ -5,6 +5,7 @@ import localLighthouse from './localLighthouse';
 import slackNotify from './slackNotify';
 import { NAME, SUCCESS_CODE_GENERIC } from './constants';
 import { ERROR_NO_RESULTS } from './errorCodes';
+import logResults from './logResults';
 
 export default ({
   apiToken,
@@ -69,6 +70,10 @@ export default ({
 
           // if this condition doesn't pass - we got a problem
           if (queueIds.length) {
+            if (!params.verbose) {
+              console.log('\n');
+            }
+
             const auditResults = await fetchAndWaitForLighthouseAudits({
               apiToken,
               queueIds,
@@ -87,6 +92,8 @@ export default ({
                 verbose
               });
             }
+
+            logResults({ results: auditResults });
 
             // success
             resolve({
@@ -140,6 +147,8 @@ export default ({
               verbose
             });
           }
+
+          logResults({ results: lighthouseAudits });
 
           // success
           resolve({
