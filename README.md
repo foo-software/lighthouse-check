@@ -319,6 +319,7 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td><code>oneOf(['mobileSlow4G', 'mobileRegluar3G'])</code></td>
     <td><code>undefined</code></td>
   </tr>
+  <!--
   <tr>
     <td><code>timeout</code></td>
     <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown.</td>
@@ -326,6 +327,7 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td><code>10</code></td>
     <td>no</td>
   </tr>
+  -->
   <tr>
     <td><code>urls</code></td>
     <td>An array of URLs. NOTE: in the CLI this value should be a comma-separated list.</td>
