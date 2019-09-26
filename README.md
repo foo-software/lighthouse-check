@@ -300,6 +300,7 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td><code>string</code></td>
     <td><code>undefined</code></td>
   </tr>
+  <!--
   <tr>
     <td><code>tag</code></td>
     <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>).</td>
@@ -307,6 +308,7 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
+  -->
   <tr>
     <td><code>throttlingMethod</code></td>
     <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
