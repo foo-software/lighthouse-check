@@ -328,7 +328,7 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
   </tr>
   <tr>
     <td><code>urls</code></td>
-    <td>An optional list of URLs represented by their respective API token. URL API tokens can be found in the dashboard.</td>
+    <td>An array of URLs. NOTE: in the CLI this value should be a comma-separated list.</td>
     <td><code>array</code></td>
     <td><code>undefined</code></td>
     <td>yes</td>
