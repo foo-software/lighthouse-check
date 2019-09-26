@@ -340,6 +340,7 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td><code>true</code></td>
     <td>no</td>
   </tr>
+  <!--
   <tr>
     <td><code>wait</code></td>
     <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued.</td>
@@ -347,6 +348,7 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td><code>true</code></td>
     <td>no</td>
   </tr>
+  -->
 </table>
 
 ## Return Payload
