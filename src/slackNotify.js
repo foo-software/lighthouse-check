@@ -45,12 +45,14 @@ export default async ({
         text: result.url,
         attachments: [
           {
-            text: title
+            title
           },
-          ...Object.keys(result.scores).map(current => ({
-            color: getLighthouseScoreColor(result.scores[current]),
-            text: `**${lighthouseAuditTitles[current]}**: ${result.scores[current]}`
-          }))
+          ...Object.keys(result.scores).map(current => [
+            {
+              color: getLighthouseScoreColor(result.scores[current]),
+              text: `**${lighthouseAuditTitles[current]}**: ${result.scores[current]}`
+            }
+          ])
         ],
         ...(!authorName
           ? {}
