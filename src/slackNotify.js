@@ -31,26 +31,33 @@ export default async ({
         title = `${title} Change made in \`${branchText}\`.`;
       }
 
-      let footer;
+      let authorName;
       if (author) {
-        footer = `by ${author}`;
+        authorName = `by ${author}`;
 
         if (sha) {
-          footer = `${footer} in ${sha.slice(0, 10)}`;
+          authorName = `${authorName} in ${sha.slice(0, 10)}`;
         }
       }
 
       await webhook.send({
         title,
         text: result.url,
-        attachments: Object.keys(result.scores).map(current => ({
-          color: getLighthouseScoreColor(result.scores[current]),
-          text: `**${lighthouseAuditTitles[current]}**: ${result.scores[current]}`
-        })),
-        ...(!footer
+        attachments: [
+          {
+            title
+          },
+          ...Object.keys(result.scores).map(current => [
+            {
+              color: getLighthouseScoreColor(result.scores[current]),
+              text: `**${lighthouseAuditTitles[current]}**: ${result.scores[current]}`
+            }
+          ])
+        ],
+        ...(!authorName
           ? {}
           : {
-              footer
+              author_name: authorName
             })
       });
     }
