@@ -265,6 +265,12 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td><code>undefined</code></td>
   </tr>
   <tr>
+    <td><code>configFile</code></td>
+    <td>A configuration file path in JSON format which holds all options defined here. This file should be relative to the file being interpretted.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
     <td><code>emulatedFormFactor</code></td>
     <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
     <td><code>oneOf(['mobile', 'desktop']</code></td>
