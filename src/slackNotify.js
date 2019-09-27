@@ -80,5 +80,8 @@ export default async ({
     if (verbose) {
       console.log(`${NAME}:`, error);
     }
+
+    // we still need to kill the process
+    throw error;
   }
 };
