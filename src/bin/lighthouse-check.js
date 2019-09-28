@@ -122,15 +122,7 @@ const init = async () => {
       spinner.start();
     }
 
-    // if urls are in string format, we need to split them int an array,
-    // otherwise they may already be an array from a config json file.
-    const urls =
-      typeof params.urls !== 'string' ? params.urls : params.urls.split(',');
-
-    await lighthouseCheck({
-      ...params,
-      urls
-    });
+    await lighthouseCheck(params);
 
     process.exit();
   } catch (error) {

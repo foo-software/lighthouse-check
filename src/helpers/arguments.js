@@ -50,6 +50,11 @@ export const convertOptionsFromArguments = options =>
       value = Number(value);
     }
 
+    // format array
+    if (option.type === 'array' && value) {
+      value = value.split(',');
+    }
+
     if (option.type === 'string' && !value) {
       value = undefined;
     }

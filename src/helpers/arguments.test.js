@@ -93,4 +93,48 @@ describe('convertOptionsFromArguments', () => {
     });
     expect(actual).toEqual(expected);
   });
+
+  it('should create correct types from CLI string argument', () => {
+    const options = convertOptionsFromArguments({
+      myEmptyString: {
+        type: 'string',
+        value: ''
+      },
+      myString: {
+        type: 'string',
+        value: 'foobar'
+      },
+      myBoolean: {
+        type: 'boolean',
+        value: 'true'
+      },
+      myBooleanFalse: {
+        type: 'boolean',
+        value: 'false'
+      },
+      myBooleanEmpty: {
+        type: 'boolean',
+        value: ''
+      },
+      myNumber: {
+        type: 'number',
+        value: '100'
+      },
+      myArray: {
+        type: 'array',
+        value: 'one,two'
+      }
+    });
+
+    expect(typeof options.myEmptyString).toEqual('undefined');
+    expect(options.myString).toEqual('foobar');
+    expect(options.myBoolean).toEqual(true);
+    expect(options.myBooleanFalse).toEqual(false);
+
+    // the CLI argument present with no arguments is interpretted as `true`
+    expect(options.myBooleanEmpty).toEqual(true);
+
+    expect(options.myNumber).toEqual(100);
+    expect(options.myArray).toEqual(['one', 'two']);
+  });
 });
