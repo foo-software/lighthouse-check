@@ -85,11 +85,11 @@ const defaultOptions = {
     value: undefined
   },
   urls: {
-    type: 'string',
+    type: 'array',
     value: undefined
   },
   verbose: {
-    type: 'string',
+    type: 'boolean',
     value: false
   },
   wait: {
