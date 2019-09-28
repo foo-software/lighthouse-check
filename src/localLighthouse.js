@@ -112,20 +112,6 @@ export default async ({
   const auditResults = [];
   let index = 1;
 
-  console.log('params', {
-    awsAccessKeyId,
-    awsBucket,
-    awsRegion,
-    awsSecretAccessKey,
-    emulatedFormFactor,
-    locale,
-    outputDirectory,
-    throttling,
-    throttlingMethod,
-    urls,
-    verbose
-  });
-
   for (const url of urls) {
     if (verbose) {
       console.log(`${NAME}: Auditing (${index}/${urls.length}) ${url}`);

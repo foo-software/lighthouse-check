@@ -25,16 +25,16 @@ describe('getArgument', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('should return "true" of a flag without a value', () => {
+  it('should return "" from a flag without a value', () => {
     process.argv = ['--ipsum', 'lorem', '--without-a-value', '--foo', 'bar'];
-    const expected = true;
+    const expected = '';
     const actual = getArgument('without-a-value');
     expect(actual).toEqual(expected);
   });
 
-  it('should return "true" of a flag without a value an at the end of a command.', () => {
+  it('should return "" of a flag without a value an at the end of a command.', () => {
     process.argv.push('--without-a-value');
-    const expected = true;
+    const expected = '';
     const actual = getArgument('without-a-value');
     expect(actual).toEqual(expected);
   });
@@ -59,8 +59,14 @@ describe('convertOptionsFromArguments', () => {
       nonexistent2: false
     };
     const actual = convertOptionsFromArguments({
-      nonexistent: 'lorem',
-      nonexistent2: false
+      nonexistent: {
+        type: 'string',
+        value: 'lorem'
+      },
+      nonexistent2: {
+        type: 'boolean',
+        value: false
+      }
     });
     expect(actual).toEqual(expected);
   });
@@ -72,9 +78,18 @@ describe('convertOptionsFromArguments', () => {
       hello: 'world'
     };
     const actual = convertOptionsFromArguments({
-      ipsum: 'foobar',
-      another: 'one',
-      hello: 'something'
+      ipsum: {
+        type: 'string',
+        value: 'foobar'
+      },
+      another: {
+        type: 'string',
+        value: 'one'
+      },
+      hello: {
+        type: 'string',
+        value: 'something'
+      }
     });
     expect(actual).toEqual(expected);
   });

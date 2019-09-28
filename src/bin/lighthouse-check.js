@@ -8,28 +8,94 @@ import { NAME } from '../constants';
 import { convertOptionsFromArguments } from '../helpers/arguments';
 
 const defaultOptions = {
-  author: undefined,
-  apiToken: undefined,
-  awsAccessKeyId: undefined,
-  awsBucket: undefined,
-  awsRegion: undefined,
-  awsSecretAccessKey: undefined,
-  branch: undefined,
-  configFile: undefined,
-  emulatedFormFactor: undefined,
-  locale: undefined,
-  help: undefined,
-  outputDirectory: undefined,
-  pr: undefined,
-  sha: undefined,
-  slackWebhookUrl: undefined,
-  tag: undefined,
-  timeout: undefined,
-  throttling: undefined,
-  throttlingMethod: undefined,
-  urls: undefined,
-  verbose: false,
-  wait: undefined
+  author: {
+    type: 'string',
+    value: undefined
+  },
+  apiToken: {
+    type: 'string',
+    value: undefined
+  },
+  awsAccessKeyId: {
+    type: 'string',
+    value: undefined
+  },
+  awsBucket: {
+    type: 'string',
+    value: undefined
+  },
+  awsRegion: {
+    type: 'string',
+    value: undefined
+  },
+  awsSecretAccessKey: {
+    type: 'string',
+    value: undefined
+  },
+  branch: {
+    type: 'string',
+    value: undefined
+  },
+  configFile: {
+    type: 'string',
+    value: undefined
+  },
+  emulatedFormFactor: {
+    type: 'string',
+    value: undefined
+  },
+  locale: {
+    type: 'string',
+    value: undefined
+  },
+  help: {
+    type: 'boolean',
+    value: undefined
+  },
+  outputDirectory: {
+    type: 'string',
+    value: undefined
+  },
+  pr: {
+    type: 'string',
+    value: undefined
+  },
+  sha: {
+    type: 'string',
+    value: undefined
+  },
+  slackWebhookUrl: {
+    type: 'string',
+    value: undefined
+  },
+  tag: {
+    type: 'string',
+    value: undefined
+  },
+  timeout: {
+    type: 'number',
+    value: undefined
+  },
+  throttling: {
+    type: 'string',
+    value: undefined
+  },
+  throttlingMethod: {
+    type: 'string',
+    value: undefined
+  },
+  urls: {
+    type: 'string',
+    value: undefined
+  },
+  verbose: {
+    type: 'string',
+    value: false
+  },
+  wait: {
+    type: 'boolean',
+    value: undefined
+  }
 };
 
 // override options with any that are passed in as arguments
