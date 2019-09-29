@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/foo-software/lighthouse-check#readme",
   "bin": {
-    "lighthouse-check": "dist/bin/lighthouse-check.js"
+    "lighthouse-check": "dist/bin/lighthouse-check.js",
+    "lighthouse-check-status": "dist/bin/lighthouse-check-status.js"
   },
   "jest": {
     "modulePathIgnorePatterns": [

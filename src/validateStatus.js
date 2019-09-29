@@ -1,6 +1,6 @@
-// import get from 'lodash.get';
-// import path from 'path';
-import { NAME } from './constants';
+import fs from 'fs';
+import path from 'path';
+import { NAME, NAME_RESULTS_JSON_FILE } from './constants';
 
 const getScoreFailMessage = ({ name, url, minScore, score }) => {
   // if inputs are not specified - assume we shouldn't fail
@@ -25,7 +25,7 @@ const getFailureMessages = ({
   minSeoScore,
   results
 }) =>
-  results.data.reduce(
+  results.reduce(
     (accumulator, current) => [
       ...accumulator,
       ...getScoreFailMessage({
@@ -62,22 +62,32 @@ const getFailureMessages = ({
     []
   );
 
-export default ({
+export default async ({
   minAccessibilityScore,
   minBestPracticesScore,
   minPerformanceScore,
   minProgressiveWebAppScore,
   minSeoScore,
+  outputDirectory,
   results,
   verbose
 }) => {
+  let resultsJson = results;
+
+  if (outputDirectory && !resultsJson) {
+    const outputDirectoryPath = path.resolve(outputDirectory);
+    const resultsJsonFile = `${outputDirectoryPath}/${NAME_RESULTS_JSON_FILE}`;
+    const resultsJsonString = fs.readFileSync(resultsJsonFile).toString();
+    resultsJson = JSON.parse(resultsJsonString);
+  }
+
   const failures = getFailureMessages({
     minAccessibilityScore,
     minBestPracticesScore,
     minPerformanceScore,
     minProgressiveWebAppScore,
     minSeoScore,
-    results
+    results: resultsJson
   });
 
   // if we have scores that were below the minimum requirement
@@ -90,4 +100,6 @@ export default ({
   if (verbose) {
     console.log(`${NAME}:`, 'Scores passed minimum requirement ✅');
   }
+
+  return true;
 };
