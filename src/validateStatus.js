@@ -76,13 +76,9 @@ export default async ({
 
   if (outputDirectory && !resultsJson) {
     const outputDirectoryPath = path.resolve(outputDirectory);
-    console.log('outputDirectoryPath', outputDirectoryPath);
     const resultsJsonFile = `${outputDirectoryPath}/${NAME_RESULTS_JSON_FILE}`;
-    console.log('resultsJsonFile', resultsJsonFile);
     const resultsJsonString = fs.readFileSync(resultsJsonFile).toString();
-    console.log('resultsJsonString', resultsJsonString);
     resultsJson = JSON.parse(resultsJsonString);
-    console.log('resultsJson', resultsJson);
   }
 
   const failures = getFailureMessages({
