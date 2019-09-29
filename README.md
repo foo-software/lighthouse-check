@@ -356,6 +356,7 @@ jobs:
     <td>A configuration file path in JSON format which holds all options defined here. This file should be relative to the file being interpretted.</td>
     <td><code>string</code></td>
     <td><code>undefined</code></td>
+    <td>no</td>
   </tr>
   <tr>
     <td><code>emulatedFormFactor</code></td>
