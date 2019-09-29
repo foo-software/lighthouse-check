@@ -236,13 +236,6 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
     <td>no</td>
   </tr>
   <tr>
-    <td><code>branch</code></td>
-    <td>For Slack notifications: A version control branch, typically from GitHub.</td>
-    <td><code>string</code></td>
-    <td><code>undefined</code></td>
-    <td>no</td>
-  </tr>
-  <tr>
     <td><code>awsAccessKeyId</code></td>
     <td>The AWS <code>accessKeyId</code> for an S3 bucket.</td>
     <td><code>string</code></td>
@@ -266,6 +259,13 @@ In the example above we also uploaded reports to S3. Why would we do this? If we
   <tr>
     <td><code>awsSecretAccessKey</code></td>
     <td>The AWS <code>secretAccessKey</code> for an S3 bucket.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td><code>branch</code></td>
+    <td>For Slack notifications: A version control branch, typically from GitHub.</td>
     <td><code>string</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
