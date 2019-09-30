@@ -148,7 +148,7 @@ $ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/con
 
 The below screenshot shows an advanced implementation as detailed in the [CircleCI example](#implementing-with-circleci).
 
-<img alt="lighthouse-check Slack Notification" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-slack.png" width="600" />
+<img alt="Lighthouse Check Slack notification" src="https://lighthouse-check.s3.amazonaws.com/images/github-actions/github-action-lighthouse-check-slack.png" width="600" />
 
 ## Enforcing Minimum Scores
 
