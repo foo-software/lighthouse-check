@@ -152,7 +152,7 @@ The below screenshot shows an advanced implementation as detailed in the [Circle
 
 ## Enforcing Minimum Scores
 
-You can use `validateStatus` to enforce minimum scores. This would be handy in a DevOps workflow for example.
+You can use `validateStatus` to enforce minimum scores. This could be handy in a DevOps workflow for example.
 
 ```javascript
 import { lighthouseCheck, validateStatus } from '@foo-software/lighthouse-check';
