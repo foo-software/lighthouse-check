@@ -20,7 +20,7 @@ export default ({
   locale,
   outputDirectory,
   pr,
-  prCommentOauthToken,
+  prCommentAccessToken,
   prCommentUrl,
   sha,
   tag,
@@ -151,9 +151,9 @@ export default ({
             });
           }
 
-          if (prCommentUrl && prCommentOauthToken) {
+          if (prCommentUrl && prCommentAccessToken) {
             await postPrComment({
-              prCommentOauthToken,
+              prCommentAccessToken,
               prCommentUrl,
               results: lighthouseAudits,
               verbose

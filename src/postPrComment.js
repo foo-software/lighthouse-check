@@ -10,7 +10,7 @@ const resultTableHeader = `
 `;
 
 export default async ({
-  prCommentOauthToken,
+  prCommentAccessToken,
   prCommentUrl,
   results,
   verbose
@@ -34,7 +34,7 @@ export default async ({
       }),
       headers: {
         'content-type': 'application/json',
-        authorization: `token ${prCommentOauthToken}`
+        authorization: `token ${prCommentAccessToken}`
       }
     });
     const jsonResult = await result.json();

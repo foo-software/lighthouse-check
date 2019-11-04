@@ -60,7 +60,7 @@ const defaultOptions = {
     type: 'string',
     value: undefined
   },
-  prCommentOauthToken: {
+  prCommentAccessToken: {
     type: 'string',
     value: undefined
   },
