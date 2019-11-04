@@ -60,6 +60,14 @@ const defaultOptions = {
     type: 'string',
     value: undefined
   },
+  prCommentOauthToken: {
+    type: 'string',
+    value: undefined
+  },
+  prCommentUrl: {
+    type: 'string',
+    value: undefined
+  },
   sha: {
     type: 'string',
     value: undefined
