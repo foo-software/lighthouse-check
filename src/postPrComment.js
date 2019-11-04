@@ -1,5 +1,13 @@
 import fetch from './fetch';
+import lighthouseAuditTitles from './lighthouseAuditTitles';
+import LighthouseCheckError from './LighthouseCheckError';
+import { ERROR_UNEXPECTED_RESPONSE } from './errorCodes';
 import { NAME } from './constants';
+
+const resultTableHeader = `
+| Audit | Score |
+| ----- | ----- |
+`;
 
 export default async ({
   prCommentOauthToken,
@@ -8,16 +16,38 @@ export default async ({
   verbose
 }) => {
   try {
-    await fetch(prCommentUrl, {
+    let markdown = `## Lighthouse Audits`;
+
+    for (const result of results) {
+      markdown += `\n\n${result.url}\n\n${resultTableHeader}`;
+
+      Object.keys(result.scores).forEach(current => {
+        markdown += `| ${lighthouseAuditTitles[current]} | ${result.scores[current]} |\n`;
+      });
+    }
+
+    const result = await fetch(prCommentUrl, {
       method: 'post',
       body: JSON.stringify({
-        body: 'hello world'
+        event: 'COMMENT',
+        body: markdown
       }),
       headers: {
         'content-type': 'application/json',
-        authorization: `token OAUTH-TOKEN ${prCommentOauthToken}`
+        authorization: `token ${prCommentOauthToken}`
       }
     });
+    const jsonResult = await result.json();
+
+    if (!jsonResult.id) {
+      throw new LighthouseCheckError(
+        jsonResult.message || 'something went wrong',
+        {
+          code: ERROR_UNEXPECTED_RESPONSE,
+          data: jsonResult
+        }
+      );
+    }
   } catch (error) {
     if (verbose) {
       console.log(`${NAME}:`, error);

@@ -96,15 +96,6 @@ export default ({
               });
             }
 
-            if (prCommentUrl) {
-              await postPrComment({
-                prCommentOauthToken,
-                prCommentUrl,
-                results: auditResults,
-                verbose
-              });
-            }
-
             logResults({ results: auditResults });
 
             // success
@@ -156,6 +147,15 @@ export default ({
               results: lighthouseAudits,
               sha,
               slackWebhookUrl,
+              verbose
+            });
+          }
+
+          if (prCommentUrl && prCommentOauthToken) {
+            await postPrComment({
+              prCommentOauthToken,
+              prCommentUrl,
+              results: lighthouseAudits,
               verbose
             });
           }
