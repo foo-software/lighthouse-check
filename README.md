@@ -13,6 +13,7 @@
 - Optionally [save an HTML report locally](#saving-reports-locally).
 - Optionally [save an HTML report in an AWS S3 bucket](#saving-reports-to-s3).
 - [Easy setup with Slack Webhooks](#implementing-with-slack). Just add your Webhook URL and `lighthouse-check` will send results and optionally include versioning data like branch, author, PR, etc (typically from GitHub).
+- PR comments of audit scores.
 - NPM module for programmatic [usage](#basic-usage).
 - CLI - see [CLI Usage](#cli-usage).
 - Docker - see [Docker Usage](#docker-usage).
@@ -269,6 +270,7 @@ jobs:
       - name: Run Lighthouse
         uses: foo-software/lighthouse-check-action@master
         with:
+          accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
           author: ${{ github.actor }}
           awsAccessKeyId: ${{ secrets.LIGHTHOUSE_CHECK_AWS_ACCESS_KEY_ID }}
           awsBucket: ${{ secrets.LIGHTHOUSE_CHECK_AWS_BUCKET }}
