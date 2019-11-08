@@ -151,6 +151,12 @@ The below screenshot shows an advanced implementation as detailed in the [Circle
 
 <img alt="Lighthouse Check Slack notification" src="https://lighthouse-check.s3.amazonaws.com/images/github-actions/github-action-lighthouse-check-slack.png" width="600" />
 
+## Enabling PR Comments
+
+Populate [`prCommentAccessToken` and `prCommentUrl` options](#options) to enable comments on pull requests.
+
+<img alt="Lighthouse Check PR comments" src="https://lighthouse-check.s3.amazonaws.com/images/lighthouse-check-pr-comment.png" width="400">
+
 ## Enforcing Minimum Scores
 
 You can use `validateStatus` to enforce minimum scores. This could be handy in a DevOps workflow for example.
