@@ -73,7 +73,7 @@ export default ({
 
           // if this condition doesn't pass - we got a problem
           if (queueIds.length) {
-            if (!params.verbose) {
+            if (!verbose) {
               console.log('\n');
             }
 
@@ -92,6 +92,15 @@ export default ({
                 results: auditResults,
                 sha,
                 slackWebhookUrl,
+                verbose
+              });
+            }
+
+            if (prCommentUrl && prCommentAccessToken) {
+              await postPrComment({
+                prCommentAccessToken,
+                prCommentUrl,
+                results: auditResults,
                 verbose
               });
             }

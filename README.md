@@ -60,7 +60,7 @@ The CLI will log the results.
 
 <img alt="lighthouse-check CLI output" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-cli-output.jpg" width="600" />
 
-## automated-lighthouse-check.com API Usage
+## Automated Lighthouse Check API Usage
 
 ## Saving Reports Locally
 
@@ -314,7 +314,7 @@ jobs:
   </tr>
   <tr>
     <td><code>apiToken</code></td>
-    <td>The automated-lighthouse-check.com account API token found in the dashboard. Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
+    <td>The automated-lighthouse-check.com account API token found in the dashboard.</td>
     <td><code>string</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
@@ -426,7 +426,7 @@ jobs:
   </tr>
   <tr>
     <td><code>tag</code></td>
-    <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>). Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
+    <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>).</td>
     <td><code>string</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
@@ -447,7 +447,7 @@ jobs:
   </tr>
   <tr>
     <td><code>timeout</code></td>
-    <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown. Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
+    <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown.</td>
     <td><code>number</code></td>
     <td><code>10</code></td>
     <td>no</td>
@@ -468,7 +468,7 @@ jobs:
   </tr>
   <tr>
     <td><code>wait</code></td>
-    <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued. Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
+    <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued.</td>
     <td><code>boolean</code></td>
     <td><code>true</code></td>
     <td>no</td>
