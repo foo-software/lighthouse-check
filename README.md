@@ -6,7 +6,7 @@
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
-This project provides multiple options and **two ways of running audits** - locally in your own environment or remotely (via [automated-lighthouse-check.com](https://www.automated-lighthouse-check.com) API). Documentation for each option denotes `remote`, `local` or `both`.
+This project provides **two ways of running audits** - locally in your own environment or remotely via [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) API. For basic usage, running locally could suffice. If you'd like to maintain a historical record of Lighthouse audits, you can connect to [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) by following the [provided steps](automated-lighthouse-check-api-usage).
 
 # Features
 
@@ -61,6 +61,19 @@ The CLI will log the results.
 <img alt="lighthouse-check CLI output" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-cli-output.jpg" width="600" />
 
 ## Automated Lighthouse Check API Usage
+
+Automated Lighthouse Check can monitor your website's quality by running audits automatically! It can provide a historical record of audits over time to track progression and degradation of website quality. [Create a free account](https://www.automated-lighthouse-check.com/register) to get started. With this, not only will you have automatic audits, but also any that you trigger additionally. Below are steps to trigger audits on URLs that you've created in your account.
+
+#### Trigger Audits on All Pages in an Account
+
+- Navigate to [your account details](https://www.automated-lighthouse-check.com/account), click into "Account Management" and make note of the "API Token".
+- Use the account token as the [`apiToken` option](#options).
+
+#### Trigger Audits on Only Certain Pages in an Account
+
+- Navigate to [your account details](https://www.automated-lighthouse-check.com/account), click into "Account Management" and make note of the "API Token".
+- Navigate to [your dashboard](https://www.automated-lighthouse-check.com/dashboard) and once you've created URLs to monitor, click on the "More" link of the URL you'd like to use. From the URL details screen, click the "Edit" link at the top of the page. You should see an "API Token" on this page. It represents the token for this specific page (not to be confused with an **account** API token).
+- Use the account token as the [`apiToken` option](#options) and page token (or group of page tokens) as [`urls` option](#options).
 
 ## Saving Reports Locally
 
@@ -304,11 +317,14 @@ jobs:
 
 #### `lighthouseCheck`
 
+`lighthouse-check` provides two different ways of running audits - locally in your own environment or remotely via Automated Lighthouse Check API. You can think of local runs as the default implementation. For directions about how to run remotely see the [Automated Lighthouse Check API Usage](#automated-lighthouse-check-api-usage) section. We denote which options are available to a run type with the `Run Type` values of either `local`, `remote`, or `both`.
+
 <table>
   <tr>
     <th>Name</th>
     <th>Description</th>
     <th>Type</th>
+    <th>Run Type</th>
     <th>Default</th>
     <th>Required</th>
   </tr>
@@ -316,6 +332,7 @@ jobs:
     <td><code>apiToken</code></td>
     <td>The automated-lighthouse-check.com account API token found in the dashboard.</td>
     <td><code>string</code></td>
+    <td><code>remote</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -323,6 +340,7 @@ jobs:
     <td><code>author</code></td>
     <td>For Slack notifications: A user handle, typically from GitHub.</td>
     <td><code>string</code></td>
+    <td><code>both</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -330,6 +348,7 @@ jobs:
     <td><code>awsAccessKeyId</code></td>
     <td>The AWS <code>accessKeyId</code> for an S3 bucket.</td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -337,6 +356,7 @@ jobs:
     <td><code>awsBucket</code></td>
     <td>The AWS <code>Bucket</code> for an S3 bucket.</td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -344,6 +364,7 @@ jobs:
     <td><code>awsRegion</code></td>
     <td>The AWS <code>region</code> for an S3 bucket.</td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -351,6 +372,7 @@ jobs:
     <td><code>awsSecretAccessKey</code></td>
     <td>The AWS <code>secretAccessKey</code> for an S3 bucket.</td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -358,6 +380,7 @@ jobs:
     <td><code>branch</code></td>
     <td>For Slack notifications: A version control branch, typically from GitHub.</td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -365,6 +388,7 @@ jobs:
     <td><code>configFile</code></td>
     <td>A configuration file path in JSON format which holds all options defined here. This file should be relative to the file being interpretted.</td>
     <td><code>string</code></td>
+    <td><code>both</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -372,6 +396,7 @@ jobs:
     <td><code>emulatedFormFactor</code></td>
     <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
     <td><code>oneOf(['mobile', 'desktop']</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -379,6 +404,7 @@ jobs:
     <td><code>locale</code></td>
     <td>A locale for Lighthouse reports. Example: <code>ja</code></td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -386,6 +412,7 @@ jobs:
     <td><code>outputDirectory</code></td>
     <td>An absolute directory path to output report. You can do this an an alternative or combined with an S3 upload.</td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -393,6 +420,7 @@ jobs:
     <td><code>pr</code></td>
     <td>For Slack notifications: A version control pull request URL, typically from GitHub.</td>
     <td><code>string</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -400,6 +428,7 @@ jobs:
     <td><code>prCommentAccessToken</code></td>
     <td><a href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line">Access token</a> of a user to post PR comments.</td>
     <td><code>string</code></td>
+    <td><code>both</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -407,6 +436,7 @@ jobs:
     <td><code>prCommentUrl</code></td>
     <td>An endpoint to post comments to. Typically this will from <a href="https://developer.github.com/v3/pulls/reviews/#create-a-pull-request-review">GitHub's API</a>. Example: <code>https://api.github.com/repos/:owner/:repo/pulls/:pull_number/reviews</code></td>
     <td><code>string</code></td>
+    <td><code>both</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -414,6 +444,7 @@ jobs:
     <td><code>slackWebhookUrl</code></td>
     <td>A Slack Incoming Webhook URL to send notifications to.</td>
     <td><code>string</code></td>
+    <td><code>both</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -421,6 +452,7 @@ jobs:
     <td><code>sha</code></td>
     <td>For Slack notifications: A version control <code>sha</code>, typically from GitHub.</td>
     <td><code>string</code></td>
+    <td><code>both</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -428,6 +460,7 @@ jobs:
     <td><code>tag</code></td>
     <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>).</td>
     <td><code>string</code></td>
+    <td><code>remote</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -435,6 +468,7 @@ jobs:
     <td><code>throttlingMethod</code></td>
     <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
     <td><code>oneOf(['simulate', 'devtools', 'provided'])</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -442,6 +476,7 @@ jobs:
     <td><code>throttling</code></td>
     <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
     <td><code>oneOf(['mobileSlow4G', 'mobileRegluar3G'])</code></td>
+    <td><code>local</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
@@ -449,13 +484,15 @@ jobs:
     <td><code>timeout</code></td>
     <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown.</td>
     <td><code>number</code></td>
+    <td><code>local</code></td>
     <td><code>10</code></td>
     <td>no</td>
   </tr>
   <tr>
     <td><code>urls</code></td>
-    <td>An array of URLs. NOTE: in the CLI this value should be a comma-separated list.</td>
+    <td>An array of URLs (or page API tokens if running remotely). In the CLI this value should be a comma-separated list.</td>
     <td><code>array</code></td>
+    <td><code>both</code></td>
     <td><code>undefined</code></td>
     <td>yes</td>
   </tr>
@@ -463,6 +500,7 @@ jobs:
     <td><code>verbose</code></td>
     <td>If <code>true</code>, print out steps and results to the console.</td>
     <td><code>boolean</code></td>
+    <td><code>both</code></td>
     <td><code>true</code></td>
     <td>no</td>
   </tr>
@@ -470,6 +508,7 @@ jobs:
     <td><code>wait</code></td>
     <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued.</td>
     <td><code>boolean</code></td>
+    <td><code>remote</code></td>
     <td><code>true</code></td>
     <td>no</td>
   </tr>
