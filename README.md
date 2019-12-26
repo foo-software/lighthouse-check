@@ -6,6 +6,8 @@
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
+This project provides multiple options and **two ways of running audits** - locally in your own environment or remotely (via [automated-lighthouse-check.com](https://www.automated-lighthouse-check.com) API). Documentation for each option denotes `remote`, `local` or `both`.
+
 # Features
 
 - [Simple usage](#basic-usage) - only one parameter required.
@@ -57,6 +59,8 @@ $ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/con
 The CLI will log the results.
 
 <img alt="lighthouse-check CLI output" src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-check-cli-output.jpg" width="600" />
+
+## automated-lighthouse-check.com API Usage
 
 ## Saving Reports Locally
 
@@ -308,15 +312,13 @@ jobs:
     <th>Default</th>
     <th>Required</th>
   </tr>
-  <!--
-    <tr>
-      <td><code>apiToken</code></td>
-      <td>The lighthouse-check account API token found in the dashboard.</td>
-      <td><code>string</code></td>
-      <td><code>undefined</code></td>
-      <td>no</td>
-    </tr>
-  -->
+  <tr>
+    <td><code>apiToken</code></td>
+    <td>The automated-lighthouse-check.com account API token found in the dashboard. Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+    <td>no</td>
+  </tr>
   <tr>
     <td><code>author</code></td>
     <td>For Slack notifications: A user handle, typically from GitHub.</td>
@@ -422,15 +424,13 @@ jobs:
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
-  <!--
   <tr>
     <td><code>tag</code></td>
-    <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>).</td>
+    <td>An optional tag or name (example: <code>build #2</code> or <code>v0.0.2</code>). Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
     <td><code>string</code></td>
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
-  -->
   <tr>
     <td><code>throttlingMethod</code></td>
     <td>Lighthouse setting only used for local audits. See <a href="src/lighthouseConfig.js">src/lighthouseConfig.js</a> comments for details.</td>
@@ -445,15 +445,13 @@ jobs:
     <td><code>undefined</code></td>
     <td>no</td>
   </tr>
-  <!--
   <tr>
     <td><code>timeout</code></td>
-    <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown.</td>
+    <td>Minutes to timeout. If <code>wait</code> is <code>true</code> (it is by default), we wait for results. If this timeout is reached before results are received an error is thrown. Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
     <td><code>number</code></td>
     <td><code>10</code></td>
     <td>no</td>
   </tr>
-  -->
   <tr>
     <td><code>urls</code></td>
     <td>An array of URLs. NOTE: in the CLI this value should be a comma-separated list.</td>
@@ -468,15 +466,13 @@ jobs:
     <td><code>true</code></td>
     <td>no</td>
   </tr>
-  <!--
   <tr>
     <td><code>wait</code></td>
-    <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued.</td>
+    <td>If <code>true</code>, waits for all audit results to be returned, otherwise URLs are only enqueued. Only when using the <a href="#automated-lighthouse-check.com-api-usage">automated-lighthouse-check.com API</a>.</td>
     <td><code>boolean</code></td>
     <td><code>true</code></td>
     <td>no</td>
   </tr>
-  -->
 </table>
 
 #### `validateStatus`
