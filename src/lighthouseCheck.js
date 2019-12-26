@@ -105,7 +105,7 @@ export default ({
               });
             }
 
-            logResults({ results: auditResults });
+            logResults({ isLocalAudit, results: auditResults });
 
             // success
             resolve({
@@ -169,7 +169,7 @@ export default ({
             });
           }
 
-          logResults({ results: lighthouseAudits });
+          logResults({ isLocalAudit, results: lighthouseAudits });
 
           // success
           resolve({
