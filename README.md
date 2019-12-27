@@ -6,7 +6,7 @@
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
-This project provides **two ways of running audits** - locally in your own environment or remotely via [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) API. For basic usage, running locally could suffice. If you'd like to maintain a historical record of Lighthouse audits, you can connect to [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) by following the [provided steps](automated-lighthouse-check-api-usage).
+This project provides **two ways of running audits** - locally in your own environment or remotely via [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) API. For basic usage, running locally could suffice. If you'd like to maintain a historical record of Lighthouse audits, you can connect to [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) by following the [provided steps](#automated-lighthouse-check-api-usage).
 
 # Features
 
