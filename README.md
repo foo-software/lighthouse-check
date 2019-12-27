@@ -6,12 +6,13 @@
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
-This project provides **two ways of running audits** - locally in your own environment or remotely via [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) API. For basic usage, running locally could suffice. If you'd like to maintain a historical record of Lighthouse audits, you can connect to [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) by following the [provided steps](#automated-lighthouse-check-api-usage).
+This project provides **two ways of running audits** - locally in your own environment or remotely via [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) API. For basic usage, running locally will suffice, but if you'd like to maintain a historical record of Lighthouse audits and utilize other features, you can run audits remotely by following the [steps and examples](#automated-lighthouse-check-api-usage).
 
 # Features
 
 - [Simple usage](#basic-usage) - only one parameter required.
-- Run **multiple** Lighthouse audits with one command. 
+- Run **multiple** Lighthouse audits with one command.
+- Optionally run Lighthouse remotely and save audits with the [Automated Lighthouse Check](https://www.automated-lighthouse-check.com) API.
 - Optionally [save an HTML report locally](#saving-reports-locally).
 - Optionally [save an HTML report in an AWS S3 bucket](#saving-reports-to-s3).
 - [Easy setup with Slack Webhooks](#implementing-with-slack). Just add your Webhook URL and `lighthouse-check` will send results and optionally include versioning data like branch, author, PR, etc (typically from GitHub).
@@ -20,6 +21,23 @@ This project provides **two ways of running audits** - locally in your own envir
 - CLI - see [CLI Usage](#cli-usage).
 - Docker - see [Docker Usage](#docker-usage).
 - Support for implementations like [CircleCI](#implementing-with-circleci).
+
+# Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Basic Usage](#basic-usage)
+  - [Automated Lighthouse Check API Usage](#automated-lighthouse-check-api-usage)
+  - [Saving Reports Locally](#saving-reports-locally)
+  - [Saving Reports to S3](#saving-reports-to-s3)
+  - [Implementing with Slack](#implementing-with-slack)
+  - [Enabling PR Comments](#enabling-pr-comments)
+  - [Enforcing Minimum Scores](#enforcing-minimum-scores)
+  - [Implementing with CircleCI](#implementing-with-circleci)
+  - [Implementing with GitHub Actions](#implementing-with-gitHub-actions)
+- [CLI](#cli)
+- [Docker](#docker)
+- [Options](#options)
 
 # Install
 
@@ -86,6 +104,17 @@ $ lighthouse-check --apiToken "abcdefg"
 ```bash
 $ lighthouse-check --apiToken "abcdefg" \
   --urls "hijklmnop,qrstuv"
+```
+
+You can combine usage with other options for a more advanced setup. Example below.
+
+> Runs audits remotely and posts results as comments in a PR
+
+```bash
+$ lighthouse-check --apiToken "abcdefg" \
+  --urls "hijklmnop,qrstuv" \
+  --prCommentAccessToken "abcpersonaltoken" \
+  --prCommentUrl "https://api.github.com/repos/foo-software/lighthouse-check/pulls/3/reviews"
 ```
 
 ## Saving Reports Locally
@@ -324,13 +353,50 @@ jobs:
           path: /tmp/artifacts
 ```
 
+## CLI
+
+Running `lighthouse-check` in the example below will run Lighthouse audits against `https://www.foo.software` and `https://www.foo.software/contact` and output a report in the '/tmp/artifacts' directory.
+
+Format is `--option <argument>`. Example below.
+
+```bash
+$ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact" \
+  --outputDirectory /tmp/artifacts
+```
+
+> `lighthouse-check-status` example
+
+```bash
+$ lighthouse-check-status --outputDirectory /tmp/artifacts \
+  --minAccessibilityScore 90 \
+  --minBestPracticesScore 90 \
+  --minPerformanceScore 70 \
+  --minProgressiveWebAppScore 70 \
+  --minSeoScore 80
+```
+
+## CLI Options
+
+All options mirror [the NPM module](#options). The only difference is that array options like `urls` are passed in as a comma-separated string as an argument using the CLI.
+
+## Docker
+
+```bash
+$ docker pull foosoftware/lighthouse-check:latest
+$ docker run foosoftware/lighthouse-check:latest \
+  lighthouse-check --verbose \
+  --urls "https://www.foo.software,https://www.foo.software/contact"
+```
+
 ## Options
 
 `lighthouse-check` functions accept a single configuration object.
 
 #### `lighthouseCheck`
 
-`lighthouse-check` provides two different ways of running audits - locally in your own environment or remotely via Automated Lighthouse Check API. You can think of local runs as the default implementation. For directions about how to run remotely see the [Automated Lighthouse Check API Usage](#automated-lighthouse-check-api-usage) section. We denote which options are available to a run type with the `Run Type` values of either `local`, `remote`, or `both`.
+You can choose from two ways of running audits - locally in your own environment or remotely via Automated Lighthouse Check API. You can think of local runs as the default implementation. For directions about how to run remotely see the [Automated Lighthouse Check API Usage](#automated-lighthouse-check-api-usage) section. We denote which options are available to a run type with the `Run Type` values of either `local`, `remote`, or `both`.
+
+Below are options for the exported `lighthouseCheck` function or `lighthouse-check` command with CLI.
 
 <table>
   <tr>
@@ -616,41 +682,6 @@ jobs:
     <td><code>string</code></td>
   </tr>
 </table>
-
-## CLI Usage
-
-Running `lighthouse-check` in the example below will run Lighthouse audits against `https://www.foo.software` and `https://www.foo.software/contact` and output a report in the '/tmp/artifacts' directory.
-
-Format is `--option <argument>`. Example below.
-
-```bash
-$ lighthouse-check --urls "https://www.foo.software,https://www.foo.software/contact" \
-  --outputDirectory /tmp/artifacts
-```
-
-> `lighthouse-check-status` example
-
-```bash
-$ lighthouse-check-status --outputDirectory /tmp/artifacts \
-  --minAccessibilityScore 90 \
-  --minBestPracticesScore 90 \
-  --minPerformanceScore 70 \
-  --minProgressiveWebAppScore 70 \
-  --minSeoScore 80
-```
-
-## CLI Options
-
-All options mirror [the NPM module](#options). The only difference is that array options like `urls` are passed in as a comma-separated string as an argument using the CLI.
-
-## Docker Usage
-
-```bash
-$ docker pull foosoftware/lighthouse-check:latest
-$ docker run foosoftware/lighthouse-check:latest \
-  lighthouse-check --verbose \
-  --urls "https://www.foo.software,https://www.foo.software/contact"
-```
 
 ## Credits
 
