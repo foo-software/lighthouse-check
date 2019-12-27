@@ -69,11 +69,24 @@ The CLI will log the results.
 - Navigate to [your account details](https://www.automated-lighthouse-check.com/account), click into "Account Management" and make note of the "API Token".
 - Use the account token as the [`apiToken` option](#options).
 
+> Basic example with the CLI
+
+```bash
+$ lighthouse-check --apiToken "abcdefg"
+```
+
 #### Trigger Audits on Only Certain Pages in an Account
 
 - Navigate to [your account details](https://www.automated-lighthouse-check.com/account), click into "Account Management" and make note of the "API Token".
 - Navigate to [your dashboard](https://www.automated-lighthouse-check.com/dashboard) and once you've created URLs to monitor, click on the "More" link of the URL you'd like to use. From the URL details screen, click the "Edit" link at the top of the page. You should see an "API Token" on this page. It represents the token for this specific page (not to be confused with an **account** API token).
 - Use the account token as the [`apiToken` option](#options) and page token (or group of page tokens) as [`urls` option](#options).
+
+> Basic example with the CLI
+
+```bash
+$ lighthouse-check --apiToken "abcdefg" \
+  --urls "hijklmnop,qrstuv"
+```
 
 ## Saving Reports Locally
 
