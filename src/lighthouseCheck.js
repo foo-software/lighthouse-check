@@ -175,7 +175,7 @@ export default ({
             });
           }
 
-          // if outputDirectory is specified write the results to disk
+          // if output directory is specified write the results to disk
           if (outputDirectoryPath) {
             writeResults({
               outputDirectory: outputDirectoryPath,
