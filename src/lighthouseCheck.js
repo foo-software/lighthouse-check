@@ -94,6 +94,14 @@ export default ({
               verbose
             });
 
+            // if output directory is specified write the results to disk
+            if (outputDirectoryPath) {
+              writeResults({
+                outputDirectory: outputDirectoryPath,
+                results: lighthouseAudits
+              });
+            }
+
             if (slackWebhookUrl) {
               await slackNotify({
                 author,
@@ -172,14 +180,6 @@ export default ({
               sha,
               slackWebhookUrl,
               verbose
-            });
-          }
-
-          // if output directory is specified write the results to disk
-          if (outputDirectoryPath) {
-            writeResults({
-              outputDirectory: outputDirectoryPath,
-              results: lighthouseAudits
             });
           }
 
