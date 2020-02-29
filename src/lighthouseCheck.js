@@ -98,7 +98,7 @@ export default ({
             if (outputDirectoryPath) {
               writeResults({
                 outputDirectory: outputDirectoryPath,
-                results: lighthouseAudits
+                results: auditResults
               });
             }
 
