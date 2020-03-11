@@ -11,7 +11,7 @@ const getBadge = ({ title, score }) =>
       isHex: false,
       score
     }
-  )}?style=flat-square)`;
+  )}?style=flat-square) `;
 
 export default async ({
   prCommentAccessToken,
