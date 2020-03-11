@@ -20,23 +20,21 @@ export default async ({
   verbose
 }) => {
   try {
-    let markdown = `#### Lighthouse`;
-
     results.forEach((result, index) => {
-      // the url
-      markdown += `\n\n${result.url}`;
-
       // badges
       Object.keys(result.scores).forEach(current => {
         markdown += getBadge({
-          title: lighthouseAuditTitles[current],
+          title: lighthouseAuditTitles[current].replace(/-/g, '%20'),
           score: result.scores[current]
         });
       });
 
+      // the url
+      markdown += `\n\n${result.url}`;
+
       // if we have a URL for the full report
       if (result.report) {
-        markdown += `\n\n${result.report}`;
+        markdown += `\n\n[Full report](${result.report})`;
       }
 
       // add a horizontal line
