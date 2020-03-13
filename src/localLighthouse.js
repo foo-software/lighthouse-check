@@ -33,6 +33,7 @@ export const localLighthouse = async ({
   awsSecretAccessKey,
   emulatedFormFactor,
   locale,
+  maxWaitForLoad,
   outputDirectory,
   throttling: throttlingOverride,
   throttlingMethod,
@@ -43,6 +44,11 @@ export const localLighthouse = async ({
     ...lighthouseDefaultConfig,
     settings: {
       ...lighthouseDefaultConfig.settings,
+      ...(!maxWaitForLoad
+        ? {}
+        : {
+            maxWaitForLoad
+          }),
       ...(!throttlingMethod
         ? {}
         : {
