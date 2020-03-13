@@ -60,6 +60,10 @@ const defaultOptions = {
     type: 'boolean',
     value: undefined
   },
+  maxWaitForLoad: {
+    type: 'number',
+    value: undefined
+  },
   outputDirectory: {
     type: 'string',
     value: undefined
