@@ -488,6 +488,14 @@ Below are options for the exported `lighthouseCheck` function or `lighthouse-che
     <td>no</td>
   </tr>
   <tr>
+    <td><code>maxWaitForLoad</code></td>
+    <td>The maximum amount of time to wait for a page to load in ms.</td>
+    <td><code>number</code></td>
+    <td><code>local</code></td>
+    <td><code>undefined</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
     <td><code>outputDirectory</code></td>
     <td>An absolute directory path to output report. You can do this an an alternative or combined with an S3 upload.</td>
     <td><code>string</code></td>
