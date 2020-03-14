@@ -1,5 +1,5 @@
 # cmon alpine https://github.com/GoogleChrome/lighthouse/issues/7246
-FROM node:10.16.3-alpine
+FROM node:13.5.0-alpine
 
 RUN apk update
 RUN apk add chromium
