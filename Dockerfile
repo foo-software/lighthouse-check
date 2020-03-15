@@ -35,7 +35,4 @@ RUN npm install @foo-software/lighthouse-check -g
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
   && mkdir -p /home/chrome/reports && chown -R chrome:chrome /home/chrome
 
-# Run Chrome non-privileged
-USER chrome
-
 CMD ["lighthouse-check"]
