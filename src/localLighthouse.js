@@ -31,6 +31,7 @@ export const localLighthouse = async ({
   awsRegion,
   awsSecretAccessKey,
   emulatedFormFactor,
+  extraHeaders,
   locale,
   maxWaitForLoad,
   outputDirectory,
@@ -62,6 +63,11 @@ export const localLighthouse = async ({
         ? {}
         : {
             emulatedFormFactor
+          }),
+      ...(!extraHeaders
+        ? {}
+        : {
+            extraHeaders
           }),
       // if we wanted translations (holy!)
       // locale: 'ja',
@@ -106,6 +112,7 @@ export default async ({
   awsRegion,
   awsSecretAccessKey,
   emulatedFormFactor,
+  extraHeaders,
   locale,
   maxWaitForLoad,
   outputDirectory,
@@ -129,6 +136,7 @@ export default async ({
       awsRegion,
       awsSecretAccessKey,
       emulatedFormFactor,
+      extraHeaders,
       locale,
       maxWaitForLoad,
       outputDirectory,
