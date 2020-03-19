@@ -44,6 +44,10 @@ const defaultOptions = {
     type: 'string',
     value: undefined
   },
+  extraHeaders: {
+    type: 'string',
+    value: undefined
+  },
   locale: {
     type: 'string',
     value: undefined
