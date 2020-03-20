@@ -58,7 +58,6 @@ export const convertOptionsFromArguments = options =>
     // format object
     if (option.type === 'object' && value) {
       value = JSON.parse(value);
-      console.log('value', value);
     }
 
     if (option.type === 'string' && !value) {
