@@ -105,7 +105,7 @@ export default async ({ apiToken, tag, urls = [], verbose = true }) => {
       const errorMessage =
         errorCode === ERROR_QUEUE_MAX_USED_DAY
           ? queue.results[0].message
-          : 'All URLs failed to be enqueued. Examine the "data" property of this error for details.';
+          : 'All URLs failed to be enqueued.';
 
       if (verbose) {
         console.log(`${NAME}:`, errorMessage);
@@ -131,6 +131,13 @@ export default async ({ apiToken, tag, urls = [], verbose = true }) => {
 
     if (verbose) {
       console.log(`${NAME}:`, message);
+
+      if (queue.errors) {
+        console.log(
+          `${NAME}: Below is the API response for attempted URLs as an array. Examine the "data" property for error details.`,
+          queue.results
+        );
+      }
     }
 
     // success
