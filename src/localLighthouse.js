@@ -1,6 +1,7 @@
 import get from 'lodash.get';
 import lighthousePersist from '@foo-software/lighthouse-persist';
 import lighthouseDefaultConfig, { throttling } from './lighthouseConfig';
+import options from './lighthouseOptions';
 import writeResults from './helpers/writeResults';
 import { NAME } from './constants';
 
@@ -15,15 +16,6 @@ const getScoresFromFloat = scores =>
     }),
     {}
   );
-
-const options = {
-  chromeFlags: [
-    '--disable-dev-shm-usage',
-    '--headless',
-    '--no-sandbox',
-    '--ignore-certificate-errors'
-  ]
-};
 
 export const localLighthouse = async ({
   awsAccessKeyId,
