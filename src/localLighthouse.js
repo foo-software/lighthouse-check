@@ -1,3 +1,4 @@
+import fs from 'fs';
 import get from 'lodash.get';
 import lighthousePersist from '@foo-software/lighthouse-persist';
 import lighthouseDefaultConfig, { throttling } from './lighthouseConfig';
@@ -27,6 +28,7 @@ export const localLighthouse = async ({
   locale,
   maxWaitForLoad,
   outputDirectory,
+  overrides,
   throttling: throttlingOverride,
   throttlingMethod,
   url
@@ -68,7 +70,12 @@ export const localLighthouse = async ({
         : {
             locale
           })
-    }
+    },
+    ...(!overrides || !overrides.config
+      ? {}
+      : {
+          ...overrides.config
+        })
   };
 
   const { localReport, report, result } = await lighthousePersist({
@@ -77,7 +84,14 @@ export const localLighthouse = async ({
     awsRegion,
     awsSecretAccessKey,
     config: fullConfig,
-    options,
+    options: {
+      ...options,
+      ...(!overrides || !overrides.options
+        ? {}
+        : {
+            ...overrides.options
+          })
+    },
     outputDirectory,
     url
   });
@@ -106,6 +120,7 @@ export default async ({
   emulatedFormFactor,
   extraHeaders,
   locale,
+  overridesJsonFile,
   maxWaitForLoad,
   outputDirectory,
   throttling,
@@ -113,8 +128,18 @@ export default async ({
   urls,
   verbose
 }) => {
-  const auditResults = [];
+  // check for overrides config or options
+  let overrides;
+  if (overridesJsonFile) {
+    const overridesJsonString = fs.readFileSync(overridesJsonFile).toString();
+    const overridesJson = JSON.parse(overridesJsonString);
 
+    if (overridesJson.config || overridesJson.options) {
+      overrides = overridesJson;
+    }
+  }
+
+  const auditResults = [];
   let index = 1;
 
   for (const url of urls) {
@@ -132,6 +157,7 @@ export default async ({
       locale,
       maxWaitForLoad,
       outputDirectory,
+      overrides,
       throttling,
       throttlingMethod,
       url
