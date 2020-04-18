@@ -529,7 +529,7 @@ Below are options for the exported `lighthouseCheck` function or `lighthouse-che
   </tr>
   <tr>
     <td><code>prCommentUrl</code></td>
-    <td>An endpoint to post comments to. Typically this will from <a href="https://developer.github.com/v3/pulls/reviews/#create-a-pull-request-review">GitHub's API</a>. Example: <code>https://api.github.com/repos/:owner/:repo/pulls/:pull_number/reviews</code></td>
+    <td>An endpoint to post comments to. Typically this will be from <a href="https://developer.github.com/v3/pulls/reviews/#create-a-pull-request-review">GitHub's API</a>. Example: <code>https://api.github.com/repos/:owner/:repo/pulls/:pull_number/reviews</code></td>
     <td><code>string</code></td>
     <td><code>both</code></td>
     <td><code>undefined</code></td>
