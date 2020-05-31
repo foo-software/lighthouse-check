@@ -92,6 +92,10 @@ describe('convertOptionsFromArguments', () => {
       myArray: {
         type: 'array',
         value: 'one,two'
+      },
+      myObject: {
+        type: 'object',
+        value: '{"hello":"world","ipsum":"lorem"}'
       }
     });
 
@@ -105,5 +109,7 @@ describe('convertOptionsFromArguments', () => {
 
     expect(options.myNumber).toEqual(100);
     expect(options.myArray).toEqual(['one', 'two']);
+    expect(options.myObject.hello).toEqual('world');
+    expect(options.myObject.ipsum).toEqual('lorem');
   });
 });
