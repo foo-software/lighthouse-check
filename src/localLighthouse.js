@@ -5,6 +5,25 @@ import lighthouseDefaultConfig, { throttling } from './lighthouseConfig';
 import options from './lighthouseOptions';
 import writeResults from './helpers/writeResults';
 import { NAME } from './constants';
+import { errorMonitor } from 'stream';
+
+const lighthouseCaller = async (index, urlsLength, options) => {
+  try {
+    options.emulatedFormFactor =
+      options.emulatedFormFactor == undefined
+        ? 'mobile'
+        : options.emulatedFormFactor;
+    if (options.verbose) {
+      console.log(
+        `${NAME}: Auditing (${index}/${urlsLength}) ${options.url} in Mode:${options.emulatedFormFactor}`
+      );
+    }
+    const lighthouseAuditResult = await localLighthouse(options);
+    return lighthouseAuditResult;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const getScoresFromFloat = scores =>
   Object.keys(scores).reduce(
@@ -108,6 +127,7 @@ export const localLighthouse = async ({
     url,
     localReport,
     report,
+    emulatedFormFactor,
     scores
   };
 };
@@ -143,11 +163,7 @@ export default async ({
   let index = 1;
 
   for (const url of urls) {
-    if (verbose) {
-      console.log(`${NAME}: Auditing (${index}/${urls.length}) ${url}`);
-    }
-
-    const lighthouseAuditResult = await localLighthouse({
+    let options = {
       awsAccessKeyId,
       awsBucket,
       awsRegion,
@@ -160,11 +176,20 @@ export default async ({
       overrides,
       throttling,
       throttlingMethod,
-      url
-    });
+      url,
+      verbose
+    };
 
-    auditResults.push(lighthouseAuditResult);
-    index++;
+    if (options.emulatedFormFactor != 'both') {
+      auditResults.push(await lighthouseCaller(index, urls.length, options));
+      index++;
+    } else {
+      options.emulatedFormFactor = 'desktop';
+      auditResults.push(await lighthouseCaller(index, urls.length, options));
+      options.emulatedFormFactor = 'mobile';
+      auditResults.push(await lighthouseCaller(index, urls.length, options));
+      index++;
+    }
   }
 
   // if outputDirectory is specified write the results to disk
