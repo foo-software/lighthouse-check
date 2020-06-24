@@ -163,7 +163,7 @@ export default async ({
   let index = 1;
 
   for (const url of urls) {
-    let options = {
+    const options = {
       awsAccessKeyId,
       awsBucket,
       awsRegion,
@@ -180,7 +180,7 @@ export default async ({
       verbose
     };
 
-    if (options.emulatedFormFactor != 'both') {
+    if (options.emulatedFormFactor !== 'both') {
       auditResults.push(await lighthouseCaller(index, urls.length, options));
       index++;
     } else {
