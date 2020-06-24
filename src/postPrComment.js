@@ -31,11 +31,12 @@ export default async ({
           score: result.scores[current]
         });
       });
-      // the url
-      markdown += `\n\n${result.url}`;
 
       // the emulatedformfactor
       markdown += `\n\n Mode: **${result.emulatedFormFactor}**`;
+
+      // the url
+      markdown += `\n\n${result.url}`;
 
       // if we have a URL for the full report
       if (result.report) {

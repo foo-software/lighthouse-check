@@ -5,14 +5,9 @@ import lighthouseDefaultConfig, { throttling } from './lighthouseConfig';
 import options from './lighthouseOptions';
 import writeResults from './helpers/writeResults';
 import { NAME } from './constants';
-import { errorMonitor } from 'stream';
 
 const lighthouseCaller = async (index, urlsLength, options) => {
   try {
-    options.emulatedFormFactor =
-      options.emulatedFormFactor == undefined
-        ? 'mobile'
-        : options.emulatedFormFactor;
     if (options.verbose) {
       console.log(
         `${NAME}: Auditing (${index}/${urlsLength}) ${options.url} in Mode:${options.emulatedFormFactor}`
