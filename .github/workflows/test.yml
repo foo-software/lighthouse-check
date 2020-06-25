@@ -6,13 +6,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Run Lighthouse Check
+    - name: Setup Node
       uses: actions/setup-node@v1
       with:
         node-version: "12.x"
     - run: npm install
     - run: npm run build
-    - run: |
+    - name: Run Lighthouse Check
+      run: |
         node ./dist/bin/lighthouse-check.js --verbose \
         --urls "https://www.foo.software" \
         --prCommentEnabled true \
