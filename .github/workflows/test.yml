@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Set Environment Variables
+      run: echo '::set-env name=PR_NUMBER::green$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')'
     - name: Run Lighthouse Check
       uses: actions/setup-node@v1
       with:
@@ -17,4 +19,4 @@ jobs:
         --urls "https://www.foo.software" \
         --prCommentEnabled true \
         --prCommentAccessToken ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }} \
-        --prCommentUrl ${{ github.payload.pull_request.url }}/reviews
+        --prCommentUrl https://api.github.com/repos/foo-software/lighthouse-check/pulls/${{ PR_NUMBER }}/reviews
