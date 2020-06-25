@@ -10,6 +10,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: "12.x"
-    - run: |
-      npm run build
-      node ./dist/bin/lighthouse-check.js --urls "https://www.foo.software"
+      run: |
+        npm run build
+        node ./dist/bin/lighthouse-check.js --urls "https://www.foo.software"
