@@ -12,7 +12,7 @@ import lighthouseCheck from '../lighthouseCheck';
       prCommentAccessToken: process.env.prCommentAccessToken,
       prCommentEnabled: true,
       prCommentUrl: !prApiUrl ? undefined : `${prApiUrl}/reviews`,
-      urls: 'https://www.foo.software',
+      urls: ['https://www.foo.software'],
       verbose: true
     });
 
