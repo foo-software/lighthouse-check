@@ -180,7 +180,7 @@ export default async ({
     }
 
     // for each audit config, run the audit
-    for (auditConfig of auditConfigs) {
+    for (const auditConfig of auditConfigs) {
       if (verbose) {
         console.log(
           `${NAME}: Auditing ${auditConfig.emulatedFormFactor} (${index}/${auditConfigs.length}): ${auditConfig.url}`
