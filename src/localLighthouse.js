@@ -176,13 +176,31 @@ export default async ({
     };
 
     if (options.emulatedFormFactor !== 'both') {
-      auditResults.push(await lighthouseCaller(index, urls.length, options));
+      if (verbose) {
+        console.log(
+          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
+        );
+      }
+      const lighthouseAuditResult = await localLighthouse(options);
+      auditResults.push(lighthouseAuditResult);
       index++;
     } else {
       options.emulatedFormFactor = 'desktop';
-      auditResults.push(await lighthouseCaller(index, urls.length, options));
+      if (verbose) {
+        console.log(
+          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
+        );
+      }
+      const lighthouseAuditResultDesktop = await localLighthouse(options);
       options.emulatedFormFactor = 'mobile';
-      auditResults.push(await lighthouseCaller(index, urls.length, options));
+      if (verbose) {
+        console.log(
+          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
+        );
+      }
+      const lighthouseAuditResultMobile = await localLighthouse(options);
+      auditResults.push(lighthouseAuditResultDesktop);
+      auditResults.push(lighthouseAuditResultMobile);
       index++;
     }
   }
