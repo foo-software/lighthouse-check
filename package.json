@@ -41,7 +41,7 @@
     "build": "babel ./src --out-dir dist",
     "prepare": "npm run clean && npm run build",
     "test": "jest",
-    "test:actions": "node ./.github/workflows/test.js"
+    "test:actions": "node ./dist/bin/githubAction.js"
   },
   "husky": {
     "hooks": {
