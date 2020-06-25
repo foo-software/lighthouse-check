@@ -165,10 +165,10 @@ export default async ({
     const auditConfigs = [];
 
     // collect all audit configs
-    if (options.emulatedFormFactor !== 'both') {
+    if (options.emulatedFormFactor !== 'all') {
       auditConfigs.push(options);
     } else {
-      // establish two audits for both device types
+      // establish two audits for all device types
       auditConfigs.push({
         ...options,
         emulatedFormFactor: 'desktop'
