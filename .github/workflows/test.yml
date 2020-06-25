@@ -13,4 +13,5 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: |
-        node ./dist/bin/lighthouse-check.js --urls "https://www.foo.software" --verbose
+        node ./dist/bin/lighthouse-check.js --verbose \
+        --urls "https://www.foo.software"
