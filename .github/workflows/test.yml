@@ -14,8 +14,8 @@ jobs:
     - run: npm run build
     - name: Run Lighthouse Check
       run: |
-        node ./dist/bin/lighthouse-check.js --verbose \
-        --urls "https://www.foo.software" \
-        --prCommentEnabled true \
-        --prCommentAccessToken ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }} \
-        --prCommentUrl https://api.github.com/repos/foo-software/lighthouse-check/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews
+          node ./dist/bin/lighthouse-check.js --verbose \
+          --urls "https://www.foo.software" \
+          --prCommentEnabled true \
+          --prCommentAccessToken ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }} \
+          --prCommentUrl https://api.github.com/repos/foo-software/lighthouse-check/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews
