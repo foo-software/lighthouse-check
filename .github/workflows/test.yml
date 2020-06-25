@@ -19,4 +19,4 @@ jobs:
         --urls "https://www.foo.software" \
         --prCommentEnabled true \
         --prCommentAccessToken ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }} \
-        --prCommentUrl https://api.github.com/repos/foo-software/lighthouse-check/pulls/${{ PR_NUMBER }}/reviews
+        --prCommentUrl https://api.github.com/repos/foo-software/lighthouse-check/pulls/$PR_NUMBER/reviews
