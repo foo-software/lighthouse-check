@@ -13,8 +13,6 @@ jobs:
     - run: npm install
     - run: npm run build
     - name: Run Lighthouse Check
-      env:
-        PR_NUMBER: "$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')"
       run: |
         echo "pr number $(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')"
         node ./dist/bin/lighthouse-check.js --verbose \
