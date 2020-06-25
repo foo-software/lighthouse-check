@@ -11,5 +11,6 @@ jobs:
       with:
         node-version: "12.x"
     - run: |
+        npm install
         npm run build
         node ./dist/bin/lighthouse-check.js --urls "https://www.foo.software"
