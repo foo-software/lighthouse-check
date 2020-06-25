@@ -161,32 +161,33 @@ export default async ({
       verbose
     };
 
+    // a list of audit configurations
+    const auditConfigs = [];
+
+    // collect all audit configs
     if (options.emulatedFormFactor !== 'both') {
-      if (verbose) {
-        console.log(
-          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
-        );
-      }
-      const lighthouseAuditResult = await localLighthouse(options);
-      auditResults.push(lighthouseAuditResult);
-      index++;
+      auditConfigs.push(options);
     } else {
-      options.emulatedFormFactor = 'desktop';
+      // establish two audits for both device types
+      auditConfigs.push({
+        ...options,
+        emulatedFormFactor: 'desktop'
+      });
+      auditConfigs.push({
+        ...options,
+        emulatedFormFactor: 'mobile'
+      });
+    }
+
+    // for each audit config, run the audit
+    for (auditConfig of auditConfigs) {
       if (verbose) {
         console.log(
-          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
+          `${NAME}: Auditing ${auditConfig.emulatedFormFactor} (${index}/${auditConfigs.length}): ${auditConfig.url}`
         );
       }
-      const lighthouseAuditResultDesktop = await localLighthouse(options);
-      options.emulatedFormFactor = 'mobile';
-      if (verbose) {
-        console.log(
-          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
-        );
-      }
-      const lighthouseAuditResultMobile = await localLighthouse(options);
-      auditResults.push(lighthouseAuditResultDesktop);
-      auditResults.push(lighthouseAuditResultMobile);
+      const lighthouseAuditResult = await localLighthouse(auditConfig);
+      auditResults.push(lighthouseAuditResult);
       index++;
     }
   }
