@@ -108,6 +108,7 @@ export const localLighthouse = async ({
     url,
     localReport,
     report,
+    emulatedFormFactor,
     scores
   };
 };
@@ -143,11 +144,7 @@ export default async ({
   let index = 1;
 
   for (const url of urls) {
-    if (verbose) {
-      console.log(`${NAME}: Auditing (${index}/${urls.length}) ${url}`);
-    }
-
-    const lighthouseAuditResult = await localLighthouse({
+    const options = {
       awsAccessKeyId,
       awsBucket,
       awsRegion,
@@ -160,11 +157,38 @@ export default async ({
       overrides,
       throttling,
       throttlingMethod,
-      url
-    });
+      url,
+      verbose
+    };
 
-    auditResults.push(lighthouseAuditResult);
-    index++;
+    if (options.emulatedFormFactor !== 'both') {
+      if (verbose) {
+        console.log(
+          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
+        );
+      }
+      const lighthouseAuditResult = await localLighthouse(options);
+      auditResults.push(lighthouseAuditResult);
+      index++;
+    } else {
+      options.emulatedFormFactor = 'desktop';
+      if (verbose) {
+        console.log(
+          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
+        );
+      }
+      const lighthouseAuditResultDesktop = await localLighthouse(options);
+      options.emulatedFormFactor = 'mobile';
+      if (verbose) {
+        console.log(
+          `${NAME}: Auditing (${index}/${urls.length}) ${options.url} in Mode:${options.emulatedFormFactor}`
+        );
+      }
+      const lighthouseAuditResultMobile = await localLighthouse(options);
+      auditResults.push(lighthouseAuditResultDesktop);
+      auditResults.push(lighthouseAuditResultMobile);
+      index++;
+    }
   }
 
   // if outputDirectory is specified write the results to disk
