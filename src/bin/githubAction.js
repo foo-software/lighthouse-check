@@ -2,7 +2,7 @@
 import core from '@actions/core';
 import get from 'lodash.get';
 import github from '@actions/github';
-import lighthouseCheck from './dist/lighthouseCheck';
+import lighthouseCheck from '../lighthouseCheck';
 
 (async () => {
   try {
