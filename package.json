@@ -40,8 +40,7 @@
     "codecov": "codecov",
     "build": "babel ./src --out-dir dist",
     "prepare": "npm run clean && npm run build",
-    "test": "jest",
-    "test:actions": "node ./dist/bin/githubAction.js"
+    "test": "jest"
   },
   "husky": {
     "hooks": {
@@ -64,7 +63,6 @@
     "table": "^5.4.6"
   },
   "devDependencies": {
-    "@actions/github": "^1.1.0",
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/node": "^7.2.2",
