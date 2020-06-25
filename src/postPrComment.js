@@ -33,7 +33,7 @@ export default async ({
       });
 
       // the emulatedformfactor
-      markdown += `\n\n Mode: **${result.emulatedFormFactor}**`;
+      markdown += `\n\n Device: **${result.emulatedFormFactor}**`;
 
       // the url
       markdown += `\n\n${result.url}`;
