@@ -140,9 +140,10 @@ export default async ({
     }
   }
 
-  const auditResults = [];
-  let index = 1;
+  // a list of audit configurations
+  const auditConfigs = [];
 
+  // collect all audit configs
   for (const url of urls) {
     const options = {
       awsAccessKeyId,
@@ -161,10 +162,6 @@ export default async ({
       verbose
     };
 
-    // a list of audit configurations
-    const auditConfigs = [];
-
-    // collect all audit configs
     if (options.emulatedFormFactor !== 'all') {
       auditConfigs.push(options);
     } else {
@@ -178,18 +175,21 @@ export default async ({
         emulatedFormFactor: 'mobile'
       });
     }
+  }
 
-    // for each audit config, run the audit
-    for (const auditConfig of auditConfigs) {
-      if (verbose) {
-        console.log(
-          `${NAME}: Auditing ${auditConfig.emulatedFormFactor} (${index}/${auditConfigs.length}): ${auditConfig.url}`
-        );
-      }
-      const lighthouseAuditResult = await localLighthouse(auditConfig);
-      auditResults.push(lighthouseAuditResult);
-      index++;
+  const auditResults = [];
+  let index = 1;
+
+  // for each audit config, run the audit
+  for (const auditConfig of auditConfigs) {
+    if (verbose) {
+      console.log(
+        `${NAME}: Auditing ${auditConfig.emulatedFormFactor} (${index}/${auditConfigs.length}): ${auditConfig.url}`
+      );
     }
+    const lighthouseAuditResult = await localLighthouse(auditConfig);
+    auditResults.push(lighthouseAuditResult);
+    index++;
   }
 
   // if outputDirectory is specified write the results to disk
