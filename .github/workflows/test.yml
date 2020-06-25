@@ -7,7 +7,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Set Environment Variables
-      run: echo '::set-env name=PR_NUMBER::green$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')'
+      run: echo '::set-env name=PR_NUMBER::$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')'
     - name: Run Lighthouse Check
       uses: actions/setup-node@v1
       with:
