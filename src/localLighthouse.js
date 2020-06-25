@@ -6,20 +6,6 @@ import options from './lighthouseOptions';
 import writeResults from './helpers/writeResults';
 import { NAME } from './constants';
 
-const lighthouseCaller = async (index, urlsLength, options) => {
-  try {
-    if (options.verbose) {
-      console.log(
-        `${NAME}: Auditing (${index}/${urlsLength}) ${options.url} in Mode:${options.emulatedFormFactor}`
-      );
-    }
-    const lighthouseAuditResult = await localLighthouse(options);
-    return lighthouseAuditResult;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const getScoresFromFloat = scores =>
   Object.keys(scores).reduce(
     (accumulator, current) => ({
