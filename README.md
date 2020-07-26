@@ -27,7 +27,7 @@ This project provides **two ways of running audits** - locally in your own envir
 - [Install](#install)
 - [Usage](#usage)
   - [Basic Usage](#basic-usage)
-  - [Foo's Automated Lighthouse Check API Usage](#foo-api-usage)
+  - [Foo's Automated Lighthouse Check API Usage](#foos-automated-lighthouse-check-api-usage)
   - [Saving Reports Locally](#saving-reports-locally)
   - [Saving Reports to S3](#saving-reports-to-s3)
   - [Implementing with Slack](#implementing-with-slack)
