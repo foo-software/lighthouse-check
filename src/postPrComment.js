@@ -23,7 +23,7 @@ export default async ({
   try {
     let markdown = '';
 
-    results.forEach((result, index) => {
+    results.forEach(result => {
       // badges
       Object.keys(result.scores).forEach(current => {
         markdown += getBadge({
@@ -32,22 +32,34 @@ export default async ({
         });
       });
 
-      // the emulatedformfactor
-      markdown += `\n\n Device: **${result.emulatedFormFactor}**`;
+      // table header
+      markdown += `
+        <table>
+          <tr>
+            <th>Device</th>
+            ${!result.report ? '' : `<th>Report</th>`}
+            <th>URL</th>
+          </tr>
+          <tr>
+      `;
 
-      // the url
-      markdown += `\n\n${result.url}`;
+      // the emulatedformfactor
+      markdown += `<td>${result.emulatedFormFactor}</td>`;
 
       // if we have a URL for the full report
       if (result.report) {
-        markdown += `\n\n[Full report](${result.report})`;
+        markdown += `<td><a href="${result.report}" target="_blank">report</a></td>`;
       }
 
-      // add a horizontal line
-      if (index + 1 < results.length) {
-        markdown += `\n\n<hr />\n\n`;
-      }
+      // the url
+      markdown += `<td>${result.url}</td>`;
+
+      // close the table
+      markdown += `</tr></table>`;
     });
+
+    markdown += 'Not what you expected? Are your scores flaky? ';
+    markdown += `<a href="https://www.foo.software/lighthouse">Run Lighthouse on Foo</a>`;
 
     // create an identifier within the comment when searching comments
     // in the future
