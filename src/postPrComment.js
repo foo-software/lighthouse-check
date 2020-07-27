@@ -33,7 +33,7 @@ export default async ({
       });
 
       // table header
-      markdown += `| Device ${!result.report ? '' : `| Report `}| URL |`;
+      markdown += `\n| Device ${!result.report ? '' : `| Report `}| URL |\n`;
       markdown += `|--${!result.report ? '' : `|--`}|--|`;
 
       // the emulatedformfactor
