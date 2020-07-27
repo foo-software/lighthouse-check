@@ -33,33 +33,23 @@ export default async ({
       });
 
       // table header
-      markdown += `
-        <table>
-          <tr>
-            <th>Device</th>
-            ${!result.report ? '' : `<th>Report</th>`}
-            <th>URL</th>
-          </tr>
-          <tr>
-      `;
+      markdown += `| Device ${!result.report ? '' : `| Report `}| URL |`;
+      markdown += `|--${!result.report ? '' : `|--`}|--|`;
 
       // the emulatedformfactor
-      markdown += `<td>${result.emulatedFormFactor}</td>`;
+      markdown += `| ${result.emulatedFormFactor} `;
 
       // if we have a URL for the full report
       if (result.report) {
-        markdown += `<td><a href="${result.report}" target="_blank">report</a></td>`;
+        markdown += `| [report](${result.report}) `;
       }
 
       // the url
-      markdown += `<td>${result.url}</td>`;
-
-      // close the table
-      markdown += `</tr></table>`;
+      markdown += `| ${result.url} |`;
     });
 
     markdown += 'Not what you expected? Are your scores flaky? ';
-    markdown += `<a href="https://www.foo.software/lighthouse">Run Lighthouse on Foo</a>`;
+    markdown += `[Run Lighthouse on Foo](https://www.foo.software/lighthouse)`;
 
     // create an identifier within the comment when searching comments
     // in the future
