@@ -34,7 +34,7 @@ export default async ({
 
       // table header
       markdown += `\n| Device ${!result.report ? '' : `| Report `}| URL |\n`;
-      markdown += `|--${!result.report ? '' : `|--`}|--|`;
+      markdown += `|--${!result.report ? '' : `|--`}|--|\n`;
 
       // the emulatedformfactor
       markdown += `| ${result.emulatedFormFactor} `;
@@ -45,11 +45,11 @@ export default async ({
       }
 
       // the url
-      markdown += `| ${result.url} |`;
+      markdown += `| ${result.url} |\n`;
     });
 
     markdown += 'Not what you expected? Are your scores flaky? ';
-    markdown += `[Run Lighthouse on Foo](https://www.foo.software/lighthouse)`;
+    markdown += `[Run Lighthouse on Foo](https://www.foo.software/lighthouse)\n`;
 
     // create an identifier within the comment when searching comments
     // in the future
