@@ -45,7 +45,7 @@ export default async ({
       }
 
       // the url
-      markdown += `| ${result.url} |\n`;
+      markdown += `| ${result.url} |\n\n`;
     });
 
     markdown += 'Not what you expected? Are your scores flaky? ';
