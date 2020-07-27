@@ -14,6 +14,9 @@ const getBadge = ({ title, score }) =>
   )}?style=flat-square) `;
 
 export default async ({
+  isGitHubAction,
+  isLocalAudit,
+  isOrb,
   prCommentAccessToken,
   prCommentSaveOld,
   prCommentUrl,
@@ -50,6 +53,19 @@ export default async ({
 
     markdown += 'Not what you expected? Are your scores flaky? ';
     markdown += `[Run Lighthouse on Foo](https://www.foo.software/lighthouse)\n`;
+
+    if (isLocalAudit && (isGitHubAction || isOrb)) {
+      markdown +=
+        'If scores continue to be inconsistent consider [running all audits on Foo]';
+
+      if (isGitHubAction) {
+        markdown +=
+          '(https://github.com/foo-software/lighthouse-check-action#usage-foos-automated-lighthouse-check-api)\n';
+      } else {
+        markdown +=
+          '(https://github.com/foo-software/lighthouse-check-orb#usage-foo-api)\n';
+      }
+    }
 
     // create an identifier within the comment when searching comments
     // in the future
