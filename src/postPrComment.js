@@ -54,16 +54,19 @@ export default async ({
     markdown += 'Not what you expected? Are your scores flaky? ';
     markdown += `[Run Lighthouse on Foo](https://www.foo.software/lighthouse)\n`;
 
-    if (isLocalAudit && (isGitHubAction || isOrb)) {
+    if (isLocalAudit) {
       markdown +=
         'If scores continue to be inconsistent consider [running all audits on Foo]';
 
       if (isGitHubAction) {
         markdown +=
           '(https://github.com/foo-software/lighthouse-check-action#usage-foos-automated-lighthouse-check-api)\n';
-      } else {
+      } else if (isOrb) {
         markdown +=
           '(https://github.com/foo-software/lighthouse-check-orb#usage-foo-api)\n';
+      } else {
+        markdown +=
+          '(https://github.com/foo-software/lighthouse-check#foos-automated-lighthouse-check-api-usage)\n';
       }
     }
 
