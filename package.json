@@ -3,6 +3,9 @@
   "version": "1.0.6",
   "description": "An NPM module and CLI for automated Lighthouse audits.",
   "main": "dist/index.js",
+  "engines": {
+    "node": ">= 14.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/foo-software/lighthouse-check.git"

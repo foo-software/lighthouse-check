@@ -1,32 +1,36 @@
-# Inspired by:
-# https://github.com/alpeware/chrome-headless-stable/blob/master/Dockerfile
-FROM ubuntu:20.10
+# inspired by https://github.com/Zenika/alpine-chrome/blob/master/Dockerfile
+FROM node:14.15.0-alpine3.12
 
 LABEL maintainer "Foo <hello@foo.software>"
 
-# install node
-RUN apt-get update \
-  && apt-get -y install curl gnupg build-essential \
-  && curl -sL https://deb.nodesource.com/setup_14.x  | bash - \
-  && apt-get -y install nodejs
+# latest Chromium package
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories \
+  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+  && echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/main" >> /etc/apk/repositories \
+  && apk upgrade -U -a \
+  && apk add \
+  libstdc++ \
+  chromium \
+  harfbuzz \
+  nss \
+  freetype \
+  ttf-freefont \
+  font-noto-emoji \
+  wqy-zenhei \
+  && rm -rf /var/cache/* \
+  && mkdir /var/cache/apk
 
-RUN node -v
-RUN npm -v
+COPY local.conf /etc/fonts/local.conf
 
-# install chrome
-RUN apt-get update -qqy \
-  && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools \
-  gnupg \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+# Add Chrome as a user
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update -qqy \
-  && apt-get -qqy install google-chrome-stable \
-  && rm /etc/apt/sources.list.d/google-chrome.list \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+ENV CHROME_BIN=/usr/bin/chromium-browser \
+  CHROME_PATH=/usr/lib/chromium/
 
-RUN google-chrome-stable --version
+RUN chromium-browser --product-version
 
 RUN npm install @foo-software/lighthouse-check -g
 
