@@ -404,7 +404,9 @@ All options mirror [the NPM module](#options). The only difference is that array
 
 ```bash
 $ docker pull foosoftware/lighthouse-check:latest
-$ docker run lighthouse-check-test-3:latest lighthouse-check --verbose --urls "https://www.clifbar.com/clif/"
+$ docker run foosoftware/lighthouse-check:latest \
+  lighthouse-check --verbose \
+  --urls "https://www.foo.software/lighthouse,https://www.foo.software/contact"
 ```
 
 ## Options
