@@ -1,24 +1,33 @@
-# inspired by https://github.com/rastasheep/alpine-node-chromium/blob/master/12-alpine/Dockerfile
-FROM node:14.15.0-alpine3.12
+# Inspired by:
+# https://github.com/alpeware/chrome-headless-stable/blob/master/Dockerfile
+FROM ubuntu:20.10
 
 LABEL maintainer "Foo <hello@foo.software>"
 
-RUN \
-  echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
-  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-  && apk --no-cache update \
-  && apk --no-cache upgrade \
-  && apk add --no-cache --virtual .build-deps \
-    gifsicle pngquant optipng libjpeg-turbo-utils \
-    udev ttf-opensans chromium \
-  && rm -rf /var/cache/apk/* /tmp/*
+# install node
+RUN apt-get update \
+  && apt-get -y install curl gnupg build-essential \
+  && curl -sL https://deb.nodesource.com/setup_14.x  | bash - \
+  && apt-get -y install nodejs
 
-ENV CHROME_BIN /usr/bin/chromium-browser
-ENV LIGHTHOUSE_CHROMIUM_PATH /usr/bin/chromium-browser
+RUN node -v
+RUN npm -v
 
-RUN chromium-browser --product-version
+# install chrome
+RUN apt-get update -qqy \
+  && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools \
+  gnupg \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-RUN npm install @foo-software/lighthouse-check@2.0.0-0 -g
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update -qqy \
+  && apt-get -qqy install google-chrome-stable \
+  && rm /etc/apt/sources.list.d/google-chrome.list \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN google-chrome-stable --version
+
+RUN npm install @foo-software/lighthouse-check -g
 
 CMD ["lighthouse-check"]
