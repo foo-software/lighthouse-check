@@ -1,7 +1,6 @@
 export default {
   chromeFlags: [
     '--disable-dev-shm-usage',
-    '--disable-gpu',
     '--headless',
     '--no-sandbox',
     '--ignore-certificate-errors'
