@@ -74,7 +74,8 @@ export default ({
               performance: current.scorePerformance,
               progressiveWebApp: current.scoreProgressiveWebApp,
               seo: current.scoreSeo
-            }
+            },
+            rawReport: current
           }));
 
           resolve(audits);
