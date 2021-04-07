@@ -63,6 +63,7 @@ export default ({
           reject(result.error);
           return;
         } else if (areResultsExpected) {
+          console.log('api results', result.data);
           const audits = result.data.map(current => ({
             name: current.name,
             report: current.report,
