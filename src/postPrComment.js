@@ -25,6 +25,7 @@ export default async ({
 }) => {
   try {
     let markdown = '';
+    console.log('results', results);
 
     results.forEach(result => {
       // badges
