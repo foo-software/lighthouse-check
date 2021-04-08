@@ -158,8 +158,6 @@ const init = async () => {
       spinner.start();
     }
 
-    console.log('params', params);
-
     await lighthouseCheck(params);
 
     process.exit();

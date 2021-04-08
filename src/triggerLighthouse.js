@@ -84,8 +84,6 @@ export default async ({
     } else if (isOrb) {
       source = SOURCE_CIRCLECI_ORB;
     }
-    console.log('isGitHubAction', isGitHubAction);
-    console.log('source', source);
 
     // enqueue urls for Lighthouse audits
     const queueItemsResponse = await fetch(
