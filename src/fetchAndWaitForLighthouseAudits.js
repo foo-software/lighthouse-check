@@ -66,7 +66,7 @@ export default ({
           console.log('result', result);
           const audits = result.data.map(current => ({
             emulatedFormFactor: current.performanceEmulatedFormFactor,
-            id: current._id,
+            id: current.pageId,
             name: current.name,
             report: current.report,
             url: current.url,
