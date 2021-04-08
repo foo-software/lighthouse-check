@@ -43,6 +43,7 @@ export default ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
+      console.log('lighthouseCheck: isGitHubAction', isGitHubAction);
       const outputDirectoryPath = !outputDirectory
         ? outputDirectory
         : path.resolve(outputDirectory);
