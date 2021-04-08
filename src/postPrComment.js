@@ -121,7 +121,7 @@ export default async ({
           }
 
           const commentIdsFromExistingComment = JSON.parse(
-            commentIdsFromExistingComment
+            commentIdsFromExistingCommentString
           );
 
           // if one has more results than the other then we are definitely different
