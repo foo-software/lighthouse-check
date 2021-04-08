@@ -63,6 +63,7 @@ export default ({
           reject(result.error);
           return;
         } else if (areResultsExpected) {
+          console.log('result', result);
           const audits = result.data.map(current => ({
             emulatedFormFactor: current.performanceEmulatedFormFactor,
             id: current.pageId,
