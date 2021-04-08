@@ -12,7 +12,7 @@ jobs:
         node-version: "12.x"
     - run: npm install
     - run: npm run build
-    - name: Run Lighthouse Check
+    - name: Run Lighthouse Check Against Foo API
       run: |
         node ./dist/bin/lighthouse-check.js --verbose \
         --apiToken ${{ secrets.LIGHTHOUSE_CHECK_API_TOKEN }} \
