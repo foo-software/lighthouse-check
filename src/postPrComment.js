@@ -140,6 +140,10 @@ export default async ({
           // if any result id is not found in the other then we have a diff
           for (const commentId of commentIds) {
             if (!commentIdsFromExistingComment.includes(commentId)) {
+              console.log(
+                `${commentId} not found in commentIdsFromExistingComment:`,
+                commentIdsFromExistingComment
+              );
               return false;
             }
           }
