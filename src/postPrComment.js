@@ -112,7 +112,7 @@ export default async ({
           }
 
           // check to see if this comment matches the current result set
-          const [, commentIdsFromExistingCommentString] = current.body.join(
+          const [, commentIdsFromExistingCommentString] = current.body.split(
             'COMMENT_ID'
           );
 
