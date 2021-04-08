@@ -85,6 +85,8 @@ export default async ({
       source = SOURCE_CIRCLECI_ORB;
     }
 
+    console.log('source', source);
+
     // enqueue urls for Lighthouse audits
     const queueItemsResponse = await fetch(
       `${API_URL}${API_QUEUE_ITEMS_PATH}`,
