@@ -2,7 +2,7 @@ name: Lighthouse Check via Foo API
 on: [pull_request]
 
 jobs:
-  lighthouse:
+  lighthouse-foo-api:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
