@@ -57,7 +57,7 @@
     ]
   },
   "dependencies": {
-    "@foo-software/lighthouse-persist": "1.0.5",
+    "@foo-software/lighthouse-persist": "^2.0.0",
     "@slack/webhook": "^5.0.1",
     "lodash.get": "^4.4.2",
     "meow": "^7.0.1",
