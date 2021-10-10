@@ -17,7 +17,15 @@ export default ({
   awsBucket,
   awsRegion,
   awsSecretAccessKey,
-  emulatedFormFactor = 'mobile',
+
+  // `device` and `emulatedFormFactor` are the same things, but we
+  // support them both to accommodate older consumers. `device` should
+  // be the standard moving forward.
+  device,
+
+  // we should really update this someday to use `formFactor` which
+  // is now used by Lighthouse
+  emulatedFormFactor: paramEmulatedFormFactor = 'mobile',
   extraHeaders,
   branch,
   isGitHubAction,
@@ -43,6 +51,7 @@ export default ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
+      const emulatedFormFactor = device || paramEmulatedFormFactor;
       const outputDirectoryPath = !outputDirectory
         ? outputDirectory
         : path.resolve(outputDirectory);

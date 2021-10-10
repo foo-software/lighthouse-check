@@ -40,6 +40,10 @@ const defaultOptions = {
     type: 'string',
     value: undefined
   },
+  device: {
+    type: 'string',
+    value: undefined
+  },
   emulatedFormFactor: {
     type: 'string',
     value: undefined
