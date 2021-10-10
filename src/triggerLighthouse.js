@@ -22,6 +22,7 @@ import {
 
 export default async ({
   apiToken,
+  device,
   isGitHubAction,
   isOrb,
   tag,
@@ -95,6 +96,7 @@ export default async ({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          device,
           tag: tag || DEFAULT_TAG,
           pages: apiTokens.join(),
           source,

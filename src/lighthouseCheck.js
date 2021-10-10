@@ -65,6 +65,7 @@ export default ({
       if (!isLocalAudit) {
         const triggerResult = await triggerLighthouse({
           apiToken,
+          device: emulatedFormFactor,
           isGitHubAction,
           isOrb,
           tag,
