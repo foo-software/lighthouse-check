@@ -25,11 +25,10 @@ export default ({ isGitHubAction, isLocalAudit, isOrb, results }) => {
 
   // log results
   results.forEach(result => {
-    console.log('result', result);
     console.log(`URL: ${result.url}`);
 
-    if (result.device) {
-      console.log(`Device: ${result.device}`);
+    if (result.emulatedFormFactor) {
+      console.log(`Device: ${result.emulatedFormFactor}`);
     }
 
     if (result.report) {
