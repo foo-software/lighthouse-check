@@ -189,15 +189,7 @@ export default ({
           verbose
         });
 
-        console.log('lighthouseAudits', lighthouseAudits);
-
-        if (lighthouseAudits.runtimeError) {
-          reject(
-            new LighthouseCheckError(lighthouseAudits.runtimeError, {
-              code: ERROR_RUNTIME
-            })
-          );
-        } else if (!lighthouseAudits.length) {
+        if (!lighthouseAudits.length) {
           reject(
             new LighthouseCheckError('Something went wrong - no results.', {
               code: ERROR_NO_RESULTS
