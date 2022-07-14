@@ -189,6 +189,8 @@ export default ({
           verbose
         });
 
+        console.log('lighthouseAudits', lighthouseAudits);
+
         if (lighthouseAudits.runtimeError) {
           reject(
             new LighthouseCheckError(lighthouseAudits.runtimeError, {
