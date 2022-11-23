@@ -1,6 +1,6 @@
 {
   "name": "@foo-software/lighthouse-check",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "An NPM module and CLI for automated Lighthouse audits.",
   "main": "dist/index.js",
   "engines": {
@@ -40,7 +40,9 @@
     "transform": {
       "^.+\\.(js|jsx)$": "babel-jest"
     },
-    "transformIgnorePatterns": ["<rootDir>/node_modules/"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
   },
   "scripts": {
     "clean": "rimraf dist",
