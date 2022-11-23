@@ -36,7 +36,11 @@
   "jest": {
     "modulePathIgnorePatterns": [
       "<rootDir>/dist/"
-    ]
+    ],
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": ["<rootDir>/node_modules/"]
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -55,6 +59,7 @@
   "dependencies": {
     "@foo-software/lighthouse-persist": "^6.2.0",
     "@slack/webhook": "^6.1.0",
+    "babel-jest": "^29.3.1",
     "lodash.get": "^4.4.2",
     "meow": "^11.0.0",
     "node-fetch": "^3.3.0",
@@ -65,6 +70,7 @@
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.20.2",
     "@babel/node": "^7.20.2",
+    "@babel/plugin-transform-modules-commonjs": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
     "@babel/register": "^7.18.9",
     "codecov": "^3.8.3",
