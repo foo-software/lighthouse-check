@@ -3,7 +3,9 @@
     [
       "@babel/preset-env",
       {
-        "targets": { "node" : "12" }
+        "targets": {
+          "node": "current"
+        }
       }
     ]
   ]
