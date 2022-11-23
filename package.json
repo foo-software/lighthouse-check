@@ -53,9 +53,9 @@
     "@slack/webhook": "^6.1.0",
     "babel-jest": "^29.3.1",
     "lodash.get": "^4.4.2",
-    "meow": "^11.0.0",
+    "meow": "^7.1.1",
     "node-fetch": "^2.6.7",
-    "ora": "^6.1.2",
+    "ora": "^3.4.0",
     "table": "^6.8.1"
   },
   "devDependencies": {
