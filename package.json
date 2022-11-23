@@ -33,17 +33,6 @@
     "lighthouse-check": "dist/bin/lighthouse-check.js",
     "lighthouse-check-status": "dist/bin/lighthouse-check-status.js"
   },
-  "jest": {
-    "modulePathIgnorePatterns": [
-      "<rootDir>/dist/"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ]
-  },
   "scripts": {
     "clean": "rimraf dist",
     "codecov": "codecov",
