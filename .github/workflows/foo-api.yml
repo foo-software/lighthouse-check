@@ -1,5 +1,8 @@
 name: Lighthouse Check via Foo API
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   lighthouse-foo-api:

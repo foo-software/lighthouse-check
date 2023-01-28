@@ -1,5 +1,8 @@
 name: Lighthouse Check
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   lighthouse:

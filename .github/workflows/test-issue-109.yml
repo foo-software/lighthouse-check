@@ -15,12 +15,9 @@ jobs:
     -
       name: Start docker container
       run: docker run -d -p 8080:80 example:${{github.sha}}
-    - 
-      name: Create artifacts directory
-      run: mkdir -p ${{ github.workspace }}/tmp/artifacts/desktop && mkdir -p ${{ github.workspace }}/tmp/artifacts/mobile
     -
       name: Wait for fastboot to load
-      run: sleep 20 && curl http://localhost:8080/
+      run: sleep 30 && curl http://localhost:8080/
     -
       name: Lighthouse Desktop
       id: lighthouse-desktop
