@@ -107,6 +107,7 @@ export const localLighthouse = async ({
     },
     outputDirectory,
     url,
+    verbose: true,
   });
 
   const scores = getScoresFromFloat({

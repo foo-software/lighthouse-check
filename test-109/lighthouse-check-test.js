@@ -17,6 +17,5 @@ const { lighthouseCheck } = require('../dist');
       'http://localhost:8080/portfolio/',
       'http://localhost:8080/shop/',
     ],
-    verbose: true,
   });
 })();
