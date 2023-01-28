@@ -1,0 +1,37 @@
+name: Test Issue 109
+on: [pull_request]
+
+jobs:
+  build_and_test_lighthouse:
+    name: Build and Test (Lighthouse).
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == false && github.event.action != 'closed'
+    steps:
+    -
+      uses: actions/checkout@v3
+    -
+      name: Build docker image
+      run: docker build -t example:${{github.sha}} ${{ github.workspace }}
+    -
+      name: Start docker container
+      run: docker run -d -p 8080:80 example:${{github.sha}}
+    - 
+      name: Create artifacts directory
+      run: mkdir -p ${{ github.workspace }}/tmp/artifacts/desktop && mkdir -p ${{ github.workspace }}/tmp/artifacts/mobile
+    -
+      name: Wait for fastboot to load
+      run: sleep 20 && curl http://localhost:8080/
+    -
+      name: Lighthouse Desktop
+      id: lighthouse-desktop
+      uses: actions/setup-node@v1
+      with:
+        node-version: "14.x"
+    - run: npm install
+    - run: npm run build
+    - name: Run Lighthouse Check
+      run: |
+        node ./dist/bin/lighthouse-check.js \
+        --device "desktop" \
+        --maxRetries "5" \
+        --urls "http://localhost:8080/modern/,http://localhost:8080/modern/blog-home.html,http://localhost:8080/modern/blog-post.html,http://localhost:8080/modern/contact.html,http://localhost:8080/modern/portfolio-item.html,http://localhost:8080/modern/portfolio-overview.html,http://localhost:8080/modern/pricing.html,http://localhost:8080/modern/faq.html,http://localhost:8080/freelancer/,http://localhost:8080/portfolio/,http://localhost:8080/shop/""
