@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@v3
     -
       name: Build docker image
-      run: docker build -t example:${{github.sha}} ${{ github.workspace }}
+      run: docker build -t example:${{github.sha}} ${{ github.workspace }}/test-109
     -
       name: Start docker container
       run: docker run -d -p 8080:80 example:${{github.sha}}
