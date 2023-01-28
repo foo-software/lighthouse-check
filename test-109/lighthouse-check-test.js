@@ -1,4 +1,4 @@
-const { lighthouseCheck } = require('../lighthouse-check/dist');
+const { lighthouseCheck } = require('../dist');
 
 (async () => {
   try {
