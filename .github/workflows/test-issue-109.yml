@@ -17,16 +17,17 @@ jobs:
       run: docker run -d -p 8080:80 example:${{github.sha}}
     -
       name: Wait for fastboot to load
-      run: sleep 30 && curl http://localhost:8080/
-    -
-      name: Lighthouse Desktop
-      id: lighthouse-desktop
+      run: sleep 20 && curl http://localhost:8080/
+    - name: Setup Node
       uses: actions/setup-node@v1
       with:
         node-version: "14.x"
+    - run: npm install
+    - run: npm run build
+    -
+      name: Lighthouse Desktop
+      id: lighthouse-desktop
       run: |
-        npm install
-        npm run build
         node ./dist/bin/lighthouse-check.js \
         --device "desktop" \
         --maxRetries "5" \
