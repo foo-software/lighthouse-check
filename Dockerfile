@@ -28,6 +28,6 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 
 RUN google-chrome-stable --version
 
-RUN npm install @foo-software/lighthouse-check@9 -g
+RUN npm install @foo-software/lighthouse-check@10 -g
 
 CMD ["lighthouse-check"]
