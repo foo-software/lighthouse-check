@@ -20,6 +20,6 @@ jobs:
           --isGitHubAction true \
           --tag lighthouse-check \
           --urls ${{ secrets.LIGHTHOUSE_CHECK_URLS }} \
-          --prCommentAccessToken "${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}" \
+          --prCommentAccessToken "${{ secrets.GITHUB_TOKEN }}" \
           --prCommentEnabled \
           --prCommentUrl "https://api.github.com/repos/foo-software/lighthouse-check/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews"
