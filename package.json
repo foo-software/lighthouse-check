@@ -49,12 +49,12 @@
     "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
-    "@foo-software/lighthouse-persist": "^8.0.0",
+    "@foo-software/lighthouse-persist": "^8.1.0",
     "@slack/webhook": "^6.1.0",
     "babel-jest": "^29.3.1",
     "lodash.get": "^4.4.2",
     "meow": "^7.1.1",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^3.3.2",
     "ora": "^3.4.0",
     "table": "^6.8.1"
   },
