@@ -1,0 +1,79 @@
+# Inspired by:
+# https://github.com/alpeware/chrome-headless-stable/blob/master/Dockerfile
+FROM ubuntu:20.04
+
+LABEL maintainer "Foo <hello@foo.software>"
+
+# install node
+RUN apt-get update \
+  && apt-get -y install curl gnupg build-essential \
+  && curl -sL https://deb.nodesource.com/setup_20.x  | bash - \
+  && apt-get -y install nodejs
+
+RUN node -v
+RUN npm -v
+
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# install puppeteer / chrome launcher dependencies
+# https://pptr.dev/troubleshooting#chrome-doesnt-launch-on-linux
+# https://source.chromium.org/chromium/chromium/src/+/main:chrome/installer/linux/debian/dist_package_versions.json
+RUN apt-get update -qqy \
+  && apt-get -qqy install \
+  libasound2 \
+  libatk-bridge2.0-0 \
+  libatk1.0-0 \
+  libatspi2.0-0 \
+  libc6 \
+  libcairo2 \
+  libcups2 \
+  libdbus-1-3 \
+  libdrm2 \
+  libexpat1 \
+  libgbm1 \
+  libglib2.0-0 \
+  libnspr4 \
+  libnss3 \
+  libpango-1.0-0 \
+  libpangocairo-1.0-0 \
+  libstdc++6 \
+  libuuid1 \
+  libx11-6 \
+  libx11-xcb1 \
+  libxcb-dri3-0 \
+  libxcb1 \
+  libxcomposite1 \
+  libxcursor1 \
+  libxdamage1 \
+  libxext6 \
+  libxfixes3 \
+  libxi6 \
+  libxkbcommon0 \
+  libxrandr2 \
+  libxrender1 \
+  libxshmfence1 \
+  libxss1 \
+  libxtst6
+
+# install chrome
+RUN apt-get update -qqy \
+  && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools \
+  gnupg \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update -qqy \
+  && apt-get -qqy install google-chrome-stable \
+  && rm /etc/apt/sources.list.d/google-chrome.list \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN google-chrome-stable --version
+
+RUN npm install @foo-software/lighthouse-check@10.1.2 -g
+
+CMD ["lighthouse-check"]
+# RUN npm install lighthouse -g
+
+# CMD ["lighthouse"]
