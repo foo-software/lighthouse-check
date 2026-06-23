@@ -87,3 +87,4 @@ typings/
 # custom
 dist
 .DS_Store
+.agentmeter.json
